@@ -1,0 +1,3 @@
+{
+    "mongoURI": "mongodb+srv://runal:runal123@go-guide.ipseh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+}
