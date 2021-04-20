@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Default</title>
+</head>
+<body>
+	<form action="{% url 'register' %}" method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" name="submit">
+	</form>
+</body>
+</html>
