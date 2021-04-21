@@ -26,7 +26,7 @@ class User(AbstractUser):
 	phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) 
 	profile_pic = models.ImageField(default='default.png')
 	password = 	models.CharField(max_length=50)
-
+	account_verified = models.BooleanField(default=False)
 	# looks like the below function doesn't work
 	def create_superuser(self, username, email, password):
 		user = self.create_user(first_name='admin', last_name='admin', username=username, email=email, gender=True, phone_number=123456789, password=password)
@@ -74,3 +74,8 @@ class Review(models.Model):
 	# equivalent to Many To One Relationship
 	guide_review = models.ForeignKey(Guide, on_delete=models.CASCADE)
 	blog_review = models.ForeignKey(Blog, on_delete=models.CASCADE)
+
+class AccountVerification(models.Model):
+	av_id = models.AutoField(primary_key=True)
+	token = models.CharField(max_length=50)
+	user_id = models.IntegerField()
