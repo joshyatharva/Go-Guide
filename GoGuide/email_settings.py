@@ -1,7 +1,7 @@
 import smtplib
 
 list = [ ]
-receiver = 'tembhurnerunal@gmail.com'
+receiver = ''
 
 sender = 'goguide.seproject@gmail.com'
 password = 'goguide@coep'
