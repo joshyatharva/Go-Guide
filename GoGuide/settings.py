@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'App',
+    'App', # python3 manage.py startapp
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'App.User'
+
+LOGIN_URL = '/login'
