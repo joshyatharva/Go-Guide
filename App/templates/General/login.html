@@ -1,10 +1,12 @@
+{% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>HME</title>
+    <title>Go Guide</title>
     <link rel="stylesheet" href="{% static 'App/assets/bootstrap/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Actor">
@@ -57,6 +59,7 @@
     </nav>
     <section class="login-clean" style="margin: 100px;background: var(--white);">
         <form class="shadow-lg" method="post">
+            {% csrf_token %}
             <h2 class="sr-only">Login Form</h2><a class="navbar-brand logo" href="#" style="font-family: 'Aref Ruqaa', serif;font-size: 37px;margin-left: 45px;">GoGuide</a>
             <div class="illustration"></div>
             <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
