@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Common Form Group with Text Input</title>
+    <link rel="stylesheet" href="{% static 'App/assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'App/assets/css/styles.css' %}">
+</head>
+
+<body>
+    <div class="form-group">
+        <form>
+            <div class="form-group">
+                <label for="name">Name of location</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+                <label for="city">Name of city</label>
+                <input type="text" class="form-control" id="city" placeholder="Enter city">
+            </div>
+            <div class="form-group">
+                <label for="state">Name of state</label>
+                <input type="text" class="form-control" id="state" placeholder="Enter state">
+            </div>
+            <div class="form-group">
+                <label for="country">Name of country</label>
+                <input type="text" class="form-control" id="country" placeholder="Enter country">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="locationlink">link</label>
+                <input type="url" class="form-control" id="link_to_location" placeholder="url">
+            </div>
+            <div class="form-group">
+                <label for="image">image</label>
+                <input type="file" class="form-control-file" id="image">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <script src="{% static 'App/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'App/assets/bootstrap/js/bootstrap.min.js' %)"></script>
+</body>
+
+</html>
