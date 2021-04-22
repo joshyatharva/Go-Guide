@@ -246,7 +246,7 @@ def search_destination(request):
 	print(locations)
 	context = {}
 	if locations is not None:
-		context["locations"] = locations
+		context["destinations"] = locations
 	# destination search has been done
 	return HttpResponse("<b>Rendering for timepass</b>")
 
