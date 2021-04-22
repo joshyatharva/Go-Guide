@@ -191,3 +191,25 @@ def not_verified(request):
 		return HttpResponseRedirect(reverse('index'))
 	else:
 		return render(request, 'accountnotverified.html')
+
+
+def add_destination(request):
+	if request.method == "POST":
+		try : 
+			name = request.POST["name"]
+			city = request.POST["city"]
+			state = request.POST["state"]
+			country = request.POST["country"]
+			description = request.POST["description"]
+			link_to_location = request.POST["link_to_location"]
+			image = request.POST["link_to_location"]
+			lctn = Location(city=city, state=state, country=country)
+			lctn.save()
+			dstn = Destination(name=name, description=description, link_to_location=link_to_location, destination_image=image, location=lctn)
+			dstn.save()
+		except Exception as e:
+			return HttpResponse(f"<b>Destination Not Added to The database :: {e}</b>")
+		return HttpResponse("<b>Location Added Successfully</b>")
+	else:
+		return render(request, "General/placeform.html")
+	

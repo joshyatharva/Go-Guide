@@ -2,9 +2,36 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.conf import settings
-
+import os
+import PIL
 # validators should be a list
 # Create your models here.
+
+def destination_image_upload(instance, filename):
+	_, ext = filename.split('.')
+	filename = f'Destination/{instance.destination_id}.{ext}'
+	return filename
+
+def blog_image_upload(instance, filename):
+	_, ext = filename.split('.')
+	filename = f'Blog/{instance.blog_id}.{ext}'
+	return filename
+
+def pan_upload(instance, filename):
+	_, ext = filename.split('.')
+	filename = f'Documents/{instance.document_id}/pan/pan.{ext}'
+	return filename
+
+def aadhar_upload(instance, filename):
+	_, ext = filename.split('.')
+	filename = f'Documents/{instance.document_id}/aadhar/aadhar.{ext}'
+	return filename
+
+def certificate_upload(instance, filename):
+	_, ext = filename.split('.')
+	filename = f'Documents/{instance.document_id}/certificate/certificate.{ext}'
+	return filename
+ 
 
 class User(AbstractUser):
 	gender_choice = (
@@ -38,31 +65,40 @@ class Tourist(models.Model):
 	tourist_id = models.AutoField(primary_key=True)
 	user_details = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+class Documents(models.Model):
+	document_id = models.AutoField(primary_key=True)
+	pan = models.FileField(upload_to=pan_upload)
+	aadhar = models.FileField(upload_to=aadhar_upload)
+	certificate = models.FileField(upload_to=certificate_upload)
+
 class Guide(models.Model):
 	guide_id = models.AutoField(primary_key=True)
 	is_verified = models.BooleanField(default=False)
 	user_details = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	guide_documents = models.OneToOneField(Documents, on_delete=models.CASCADE)
 
 class Blog(models.Model):
 	blog_id = models.AutoField(primary_key=True)
 	title = models.CharField(max_length=50)
 	content = models.TextField()
 	author = models.ForeignKey(Guide, on_delete=models.CASCADE)
+	blog_image = models.ImageField(upload_to=blog_image_upload)
 
 class Location(models.Model):
 	location_id = models.AutoField(primary_key=True)
 	city = models.CharField(max_length=100)
 	state = models.CharField(max_length=100)
 	country = models.CharField(max_length=50)
-
 	class Meta:
 		unique_together = ('city', 'state', 'country')
 
 class Destination(models.Model):
 	destination_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=100)
+	description = models.TextField()
 	link_to_location = models.TextField(blank=True)
 	location = models.ForeignKey(Location, on_delete=models.CASCADE)
+	destination_image = models.ImageField(upload_to=destination_image_upload)
 
 
 class Review(models.Model):
