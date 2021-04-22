@@ -229,18 +229,21 @@ def add_destination(request):
 	else:
 		return render(request, "General/placeform.html")
 
-@require_GET
-def search_destination(request, destination):
-	destinations = " ".join(foo.split())
+@require_POST
+def search_destination(request):
+	destination = request.POST["destination"]
+	destinations = " ".join(destination.split())
 	destinations = destinations.split()
 	locations = None
 	for destination in destinations:
-		qs = Destination.objects.filter(Q(location__city__unaccent__lower__trigram_similar=destination)| Q(location__city__unaccent__lower__trigram_similar=destination) | Q(location__state__unaccent__lower__trigram_similar=destination) | Q(location__country__unaccent__lower__trigram_similar=destination))
+		# qs = Destination.objects.filter(Q(location__city__icontains__trigram_similar=destination)| Q(location__city__icontains__trigram_similar=destination) | Q(location__state__icontains__trigram_similar=destination) | Q(location__country__icontains__trigram_similar=destination))
+
+		qs = Destination.objects.filter(Q(name__icontains=destination)| Q(location__city__icontains=destination) | Q(location__state__icontains=destination) | Q(location__country__icontains=destination))
 		if locations is None:
 			locations = qs
 		else:
 			locations.union(qs)
-
+	print(locations)
 	context = {}
 	if locations is not None:
 		context["locations"] = locations
