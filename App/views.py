@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from .models import *
-from .forms import CreateUser, LoginForm
+from .forms import CreateUser, LoginForm, LocationForm, DestinationForm
 from .email_settings import mail
 import random
 import string
@@ -212,17 +212,37 @@ def not_verified(request):
 def add_destination(request):
 	if request.method == "POST":
 		try : 
-			name = request.POST["name"]
-			city = request.POST["city"]
-			state = request.POST["state"]
-			country = request.POST["country"]
-			description = request.POST["description"]
-			link_to_location = request.POST["link_to_location"]
-			image = request.POST["link_to_location"]
-			lctn = Location(city=city, state=state, country=country)
-			lctn.save()
-			dstn = Destination(name=name, description=description, link_to_location=link_to_location, destination_image=image, location=lctn)
-			dstn.save()
+			x = request.POST
+			form0 = LocationForm(x)
+			form1 = DestinationForm(x, request.FILES)
+			lctn = ''
+			if form0.is_valid():
+				lctn = form0.save()
+				print("\n\nform0 VALID\n\n")
+			else:
+				print("\n\nform0 NOT VALID\n\n")
+
+			if form1.is_valid():
+				dstn = form1.save(commit=False)
+				dstn.location = lctn
+				dstn.save()
+				print("\n\nform1 VALID\n\n")
+			else:
+				print(form1.errors)
+				print("\n\nform1 NOT VALID\n\n")
+				
+
+			# name = request.POST["name"]
+			# city = request.POST["city"]
+			# state = request.POST["state"]
+			# country = request.POST["country"]
+			# description = request.POST["description"]
+			# link_to_location = request.POST["link_to_location"]
+			# image = request.FILES["image"]
+			# lctn = Location(city=city, state=state, country=country)
+			# lctn.save()
+			# dstn = Destination(name=name, description=description, link_to_location=link_to_location, destination_image=image, location=lctn)
+			# dstn.save()
 		except Exception as e:
 			return HttpResponse(f"<b>Destination Not Added to The database :: {e}</b>")
 		return HttpResponse("<b>Location Added Successfully</b>")

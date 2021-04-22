@@ -4,32 +4,49 @@ from django.core.validators import RegexValidator
 from django.conf import settings
 import os
 import PIL
+from GoGuide.settings import BASE_DIR
 # validators should be a list
 # Create your models here.
 
 def destination_image_upload(instance, filename):
+	print("\n\nCALLED\n")
 	_, ext = filename.split('.')
-	filename = f'Destination/{instance.destination_id}.{ext}'
+	path = os.path.join(BASE_DIR, 'media/Destination')
+	if not os.path.exists(path):
+		os.makedirs(path)
+	filename = f'{BASE_DIR}/media/Destination/{instance.destination_id}.{ext}'
 	return filename
 
 def blog_image_upload(instance, filename):
 	_, ext = filename.split('.')
-	filename = f'Blog/{instance.blog_id}.{ext}'
+	path = os.path.join(BASE_DIR, 'media/Blog')
+	if not os.path.exists(path):
+		os.makedirs(path)
+	filename = f'{BASE_DIR}/media/Blog/{instance.blog_id}.{ext}'
 	return filename
 
 def pan_upload(instance, filename):
 	_, ext = filename.split('.')
-	filename = f'Documents/{instance.document_id}/pan/pan.{ext}'
+	path = os.path.join(BASE_DIR, f'media/Documents/{instance.document_id}')
+	if not os.path.exists(path):
+		os.makedirs(path)
+	filename = f'{BASE_DIR}/media/Documents/{instance.document_id}/pan.{ext}'
 	return filename
 
 def aadhar_upload(instance, filename):
 	_, ext = filename.split('.')
-	filename = f'Documents/{instance.document_id}/aadhar/aadhar.{ext}'
+	path = os.path.join(BASE_DIR, f'media/Documents/{instance.document_id}')
+	if not os.path.exists(path):
+		os.makedirs(path)
+	filename = f'{BASE_DIR}/media/Documents/{instance.document_id}/aadhar.{ext}'
 	return filename
 
 def certificate_upload(instance, filename):
 	_, ext = filename.split('.')
-	filename = f'Documents/{instance.document_id}/certificate/certificate.{ext}'
+	path = os.path.join(BASE_DIR, f'media/Documents/{instance.document_id}')
+	if not os.path.exists(path):
+		os.makedirs(path)
+	filename = f'{BASE_DIR}/media/Documents/{instance.document_id}/certificate.{ext}'
 	return filename
  
 
@@ -99,7 +116,27 @@ class Destination(models.Model):
 	description = models.TextField()
 	link_to_location = models.TextField(blank=True)
 	location = models.ForeignKey(Location, on_delete=models.CASCADE)
-	destination_image = models.ImageField(upload_to=destination_image_upload)
+	destination_image = models.ImageField()
+	def save(self, *args, **kwargs):
+		super(Destination, self).save(*args, **kwargs)
+		filename = self.destination_image.name
+		old_path = f'{BASE_DIR}/media/{filename}'
+		new_path = destination_image_upload(self, self.destination_image.name)
+		os.rename(old_path, new_path)
+		print(f"default name = {self.destination_image.name}")
+		# self.image.name = destination_image_upload(self, destination_image.name)
+		# print("Path = ", self.image_file.path)
+		# print("url = ", self.image_file.url)
+		# print("filename = ", self.image_file.name)
+		super(Destination, self).save(*args, **kwargs)
+
+		# filename = self.image_file.path
+		# im = Image.open(filename)
+		# print(im.size)
+		# im = im.resize((700, 700), Image.ANTIALIAS)
+		# print(im.size)
+		# quality_val = 100
+		# im.save(filename, quality=quality_val)
 
 
 class Review(models.Model):
