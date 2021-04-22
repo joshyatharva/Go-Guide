@@ -36,6 +36,13 @@ def index(request):
 			return HttpResponseRedirect(reverse('home-guide'))
 	return render(request, 'General/homepage.html')
 
+def aboutus(request):
+	return render(request, 'General/aboutus.html')
+
+def help(request):
+	return render(request, 'General/help.html')
+
+
 def register(request):
 	if request.user.is_authenticated:
 		return HttpResponseRedirect(reverse('index'))
