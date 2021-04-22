@@ -4,11 +4,13 @@ from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from .models import *
 from .forms import CreateUser, LoginForm
 from .email_settings import mail
 import random
 import string
+from django.db.models import Q
 
 WEBSITE = 'http://127.0.0.1:8000'
 
@@ -34,7 +36,15 @@ def index(request):
 			return HttpResponseRedirect(reverse('home-tourist'))
 		else:
 			return HttpResponseRedirect(reverse('home-guide'))
-	return render(request, 'General/homepage.html')
+	context = {}
+	try:
+		destinations = Destination.objects.all()[:10]
+		context = {
+			"destinations" : destinations,
+		}
+	except Exception as e:
+		context = {}
+	return render(request, 'General/homepage.html', context)
 
 def aboutus(request):
 	return render(request, 'General/aboutus.html')
@@ -96,13 +106,15 @@ def register(request):
 			context = {
 				"form" : form,
 			}
-			return render(request, 'General/amj_register.html', context)
+			return render(request, 'General/registration.html', context)
+			# return render(request, 'General/amj_register.html', context)
 	else:
 		form = CreateUser()
 		context = {
 			"form" : form,
 		}
-		return render(request, 'General/amj_register.html', context)
+		return render(request, 'General/registration.html', context)
+		# return render(request, 'General/amj_register.html', context)
 
 def log_in(request):
 	if request.user.is_authenticated:
@@ -116,7 +128,7 @@ def log_in(request):
 			username = usr.username
 			password = request.POST["password"]
 			user = authenticate(request, username=username, password=password)
-		except ObjectDoesNotExist:
+		except Exception as e:
 			user = None
 	
 		if user is not None:
@@ -154,6 +166,10 @@ def index_tourist(request):
 @login_required(login_url='login')
 @user_passes_test(is_guide)
 def index_guide(request):
+	user = request.user
+	guide = user.guide
+	if not guide.is_verified:
+		return HttpResponseRedirect(reverse('create-profile'))
 	context = {
 		# empty for now
 	}
@@ -212,4 +228,33 @@ def add_destination(request):
 		return HttpResponse("<b>Location Added Successfully</b>")
 	else:
 		return render(request, "General/placeform.html")
-	
+
+@require_GET
+def search_destination(request, destination):
+	destinations = " ".join(foo.split())
+	destinations = destinations.split()
+	locations = None
+	for destination in destinations:
+		qs = Destination.objects.filter(Q(location__city__unaccent__lower__trigram_similar=destination)| Q(location__city__unaccent__lower__trigram_similar=destination) | Q(location__state__unaccent__lower__trigram_similar=destination) | Q(location__country__unaccent__lower__trigram_similar=destination))
+		if locations is None:
+			locations = qs
+		else:
+			locations.union(qs)
+
+	context = {}
+	if locations is not None:
+		context["locations"] = locations
+	# destination search has been done
+	return HttpResponse("<b>Rendering for timepass</b>")
+
+@login_required(login_url='login')
+@user_passes_test(is_guide)
+def create_profile(request):
+	user = request.user
+	guide = user.guide
+	if guide.is_verified:
+		return HttpResponseRedirect(reverse('index'))
+	if request.method == "POST":
+		pass
+	else:
+		return render(request, 'General/createprofile.html') 

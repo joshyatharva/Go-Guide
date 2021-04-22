@@ -16,5 +16,7 @@ urlpatterns = [
 	path('g/profile/edit', views.profile_edit_guide, name='guide-profile-edit'),
 	path('acnt/verify/<int:a>/<str:token>', views.verify_account, name='verify-account'),
 	path('acnt/not_verified', views.not_verified, name='not-verified'),
-	path('addplace', views.add_destination, name='add-destination')
+	path('addplace', views.add_destination, name='add-destination'),
+	# path('search/<str:destination>', views.search_destination, 'search-destination'),
+
 ]

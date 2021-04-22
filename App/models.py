@@ -76,6 +76,7 @@ class Guide(models.Model):
 	is_verified = models.BooleanField(default=False)
 	user_details = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	guide_documents = models.OneToOneField(Documents, on_delete=models.CASCADE)
+	charges = models.PositiveIntegerField(default=1000)
 
 class Blog(models.Model):
 	blog_id = models.AutoField(primary_key=True)
