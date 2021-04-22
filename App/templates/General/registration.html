@@ -67,7 +67,8 @@
     </nav>
     <section class="register-photo" style="margin-top: 150px;margin-bottom: 150px;background: var(--white);">
         <div class="form-container">
-            <form method="post" style="margin-left: 0px;">
+            <form method="post" style="margin-left: 0px;" action="{% url 'register' %}">
+                {% csrf_token %}
                 <h2 class="text-center"
                     style="color: var(--blue);font-family: 'Aref Ruqaa', serif;font-weight: bold;margin-bottom: 40px;">
                     Create&nbsp; an&nbsp; Account</h2>
@@ -96,12 +97,12 @@
                     <div class="form-check genderradio">
                         <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1">
                         <label class="form-check-label" for="flexRadioDefault1">
-                            male
+                            Male
                         </label>
                         <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2"
                             checked>
                         <label class="form-check-label" for="flexRadioDefault2">
-                            female
+                            Female
                         </label>
                     </div><input class="form-control" type="email" name="email" placeholder="Email">
                 </div>
