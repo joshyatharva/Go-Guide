@@ -67,13 +67,14 @@
     </nav>
     <div class="form-group align-items-center align-content-center align-self-center"
         style="padding-right: 150px;padding-left: 150px;text-align: center;padding-top: 20px;padding-bottom: 20px;height: 750.3px;margin-bottom: 15px;">
-        <form method="POST" style="margin-left: 0px;padding-right: 150px;padding-left: 150px;margin-bottom: 100px;"
+        <form method="POST" enctype="multipart/form-data" style="margin-left: 0px;padding-right: 150px;padding-left: 150px;margin-bottom: 100px;"
             action="{% url 'create-profile' %}">
+            {% csrf_token %}
             <h2 class="text-center"
                 style="color: var(--cyan);font-family: 'Aref Ruqaa', serif;font-weight: bold;margin-bottom: 40px;font-size: 41.6px;">
                 Create profile</h2>
-            <div class="form-group"><input class="form-control" type="text" name="place" placeholder="Place">
-                <inputclass="form-control" type="text" name="charges" placeholder="Charges">
+            <div class="form-group"><!-- <input class="form-control" type="text" name="place" placeholder="Place"> -->
+                <input class="form-control" type="text" name="charges" placeholder="Charges">
                 <div class="form-group"><input class="form-control" type="text" name="city" placeholder="City">
                     <div class="form-group"><input class="form-control" type="text" name="state" placeholder="State">
                         <div class="form-group"><input class="form-control" type="text" name="country" placeholder="Country">
@@ -116,16 +117,16 @@
                 </div>
             </div>
             <h1 style="font-size: 20px;color: var(--gray-dark);margin-top: 30px;">Aadhar Card</h1><input
-                class="form-control-file" type="file" name="aadhar_card">
+                class="form-control-file" type="file" name="aadhar">
             <h1 style="font-size: 20px;color: var(--gray-dark);margin-top: 30px;">Pan Card</h1><input
-                class="form-control-file" type="file" name="pan_card">
+                class="form-control-file" type="file" name="pan">
             <h1 style="font-size: 20px;color: var(--gray-dark);margin-top: 30px;">Tourist Guide Certificate</h1><input
-                class="form-control-file" type="file" name="guide_certificate">
+                class="form-control-file" type="file" name="certificate">
             <div class="row">
                 <div class="col align-items-center align-self-center"
                     style="padding-right: 100px;padding-left: 100px;text-align: center;padding-bottom: 20px;margin-bottom: 100px;">
                     <button class="btn btn-primary align-items-center align-content-center align-self-center"
-                        type="button"
+                        type="submit"
                         style="text-align: center;margin-left: 0px;border-top-left-radius: 15px;border-bottom-right-radius: 15px;margin-top: 10px;">Submit</button>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Textarea
 from django import forms
-from .models import User, Tourist, Guide, Location, Destination
+from .models import User, Tourist, Guide, Location, Destination, Days, Documents
 
 # Using this form we can easily create users
 class CreateUser(ModelForm):
@@ -23,5 +23,14 @@ class DestinationForm(ModelForm):
 		model = Destination
 		fields = ['name', 'description', 'link_to_location', 'destination_image']
 
+class DaysForm(ModelForm):
+	class Meta:
+		model = Days
+		fields = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+
+class DocumentsForm(ModelForm):
+	class Meta:
+		model = Documents
+		fields = ['pan', 'aadhar', 'certificate']
 #createprofile.html
 #fields= [place, price, mon, tue, wed, thu, fri, sat, sun, aadhar_card, pan_card, guide_certificate ]

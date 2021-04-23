@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from .models import *
-from .forms import CreateUser, LoginForm, LocationForm, DestinationForm
+from .forms import *
 from .email_settings import mail
 import random
 import string
@@ -290,6 +290,30 @@ def create_profile(request):
 	if guide.is_verified:
 		return HttpResponseRedirect(reverse('index'))
 	if request.method == "POST":
-		pass
+		x = request.POST
+		form0 = DaysForm(x)
+		form1 = DocumentsForm(x, request.FILES)
+		charges = x.get("charges")
+		city = x.get("city")
+		state = x.get("state")
+		country = x.get("country")
+		lctn = Location.objects.filter(city=city, state=state, country=country).first()
+		if not lctn:
+			lctn = Location(city=city, state=state, country=country)
+			lctn.save()
+		if form0.is_valid() and form1.is_valid():
+			days = form0.save()
+			documents = form1.save()
+			guide.guide_documents = documents
+			guide.days_available = days
+			guide.charges = charges
+			guide.location.add(lctn)
+			guide.save()
+			return HttpResponse("<h1>Guide Create Profile Successful</h1>")
+		else:
+			print(f"FORM0 : {form0.errors}")
+			print(f"FORM1 : {form1.errors}")
+			return HttpResponse(f"FORM0 : {form0.errors}\nFORM1 : {form1.errors}")
+
 	else:
 		return render(request, 'General/createprofile.html') 

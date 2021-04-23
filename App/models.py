@@ -7,7 +7,12 @@ import PIL
 from GoGuide.settings import BASE_DIR
 # validators should be a list
 # Create your models here.
-
+def pan_upload(instance, filename):
+	return
+def aadhar_upload(instance, filename):
+	return
+def certificate_upload(instance, filename):
+	return
 def destination_image_upload(instance, filename):
 	print("\n\nCALLED\n")
 	_, ext = filename.split('.')
@@ -24,31 +29,6 @@ def blog_image_upload(instance, filename):
 		os.makedirs(path)
 	filename = f'{BASE_DIR}/media/Blog/{instance.blog_id}.{ext}'
 	return filename
-
-def pan_upload(instance, filename):
-	_, ext = filename.split('.')
-	path = os.path.join(BASE_DIR, f'media/Documents/{instance.document_id}')
-	if not os.path.exists(path):
-		os.makedirs(path)
-	filename = f'{BASE_DIR}/media/Documents/{instance.document_id}/pan.{ext}'
-	return filename
-
-def aadhar_upload(instance, filename):
-	_, ext = filename.split('.')
-	path = os.path.join(BASE_DIR, f'media/Documents/{instance.document_id}')
-	if not os.path.exists(path):
-		os.makedirs(path)
-	filename = f'{BASE_DIR}/media/Documents/{instance.document_id}/aadhar.{ext}'
-	return filename
-
-def certificate_upload(instance, filename):
-	ext = filename.split('.')[-1]
-	path = os.path.join(BASE_DIR, f'media/Documents/{instance.document_id}')
-	if not os.path.exists(path):
-		os.makedirs(path)
-	filename = f'{BASE_DIR}/media/Documents/{instance.document_id}/certificate.{ext}'
-	return filename
- 
 
 class User(AbstractUser):
 	gender_choice = (
@@ -78,15 +58,63 @@ class User(AbstractUser):
 		user.save(using=self._db)
 		return user
 
+class Location(models.Model):
+	location_id = models.AutoField(primary_key=True)
+	city = models.CharField(max_length=100)
+	state = models.CharField(max_length=100)
+	country = models.CharField(max_length=50)
+	class Meta:
+		unique_together = ('city', 'state', 'country')
+
+
 class Tourist(models.Model):
 	tourist_id = models.AutoField(primary_key=True)
 	user_details = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 class Documents(models.Model):
 	document_id = models.AutoField(primary_key=True)
-	pan = models.FileField(upload_to=pan_upload)
-	aadhar = models.FileField(upload_to=aadhar_upload)
-	certificate = models.FileField(upload_to=certificate_upload)
+	pan = models.FileField()
+	aadhar = models.FileField()
+	certificate = models.FileField()
+	def save(self, *args, **kwargs):
+		super(Documents, self).save(*args, **kwargs)
+
+		UPLOAD_TO = f'Documents/{self.document_id}/'
+		path = os.path.join(BASE_DIR, f'media/Documents/{self.document_id}')
+		if not os.path.exists(path):
+			os.makedirs(path)
+		filename = self.pan.name
+		extension = filename.split('.')[-1]
+		new_name = f"{UPLOAD_TO}pan.{extension}"
+		location = r"{BASE_DIR}/media/".format(BASE_DIR=BASE_DIR)
+		os.rename(r"{location}/{filename}".format(location=location,filename=filename), r"{location}/{new_name}".format(location=location, new_name=new_name))
+		self.pan.name = new_name
+
+		filename = self.aadhar.name
+		extension = filename.split('.')[-1]
+		new_name = f"{UPLOAD_TO}aadhar.{extension}"
+		location = r"{BASE_DIR}/media/".format(BASE_DIR=BASE_DIR)
+		os.rename(r"{location}/{filename}".format(location=location,filename=filename), r"{location}/{new_name}".format(location=location, new_name=new_name))
+		self.aadhar.name = new_name
+
+		filename = self.certificate.name
+		extension = filename.split('.')[-1]
+		new_name = f"{UPLOAD_TO}certificate.{extension}"
+		location = r"{BASE_DIR}/media/".format(BASE_DIR=BASE_DIR)
+		os.rename(r"{location}/{filename}".format(location=location,filename=filename), r"{location}/{new_name}".format(location=location, new_name=new_name))
+		self.certificate.name = new_name
+
+		super(Documents, self).save(*args, **kwargs)
+
+class Days(models.Model):
+	days_id = models.AutoField(primary_key=True)
+	mon = models.BooleanField(default=False)
+	tue = models.BooleanField(default=False)
+	wed = models.BooleanField(default=False)
+	thu = models.BooleanField(default=False)
+	fri = models.BooleanField(default=False)
+	sat = models.BooleanField(default=False)
+	sun = models.BooleanField(default=False)
 
 class Guide(models.Model):
 	guide_id = models.AutoField(primary_key=True)
@@ -94,6 +122,8 @@ class Guide(models.Model):
 	user_details = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	guide_documents = models.OneToOneField(Documents, on_delete=models.CASCADE, blank=True, null=True)
 	charges = models.PositiveIntegerField(default=1000)
+	days_available = models.OneToOneField(Days, on_delete=models.CASCADE, blank=True, null=True)
+	location = models.ManyToManyField(Location)
 
 class Blog(models.Model):
 	blog_id = models.AutoField(primary_key=True)
@@ -102,13 +132,6 @@ class Blog(models.Model):
 	author = models.ForeignKey(Guide, on_delete=models.CASCADE)
 	blog_image = models.ImageField(upload_to=blog_image_upload)
 
-class Location(models.Model):
-	location_id = models.AutoField(primary_key=True)
-	city = models.CharField(max_length=100)
-	state = models.CharField(max_length=100)
-	country = models.CharField(max_length=50)
-	class Meta:
-		unique_together = ('city', 'state', 'country')
 
 class Destination(models.Model):
 	destination_id = models.AutoField(primary_key=True)
@@ -118,17 +141,20 @@ class Destination(models.Model):
 	location = models.ForeignKey(Location, on_delete=models.CASCADE)
 	destination_image = models.ImageField()
 	def save(self, *args, **kwargs):
-		UPLOAD_TO = 'Destination/'
 		super(Destination, self).save(*args, **kwargs)
+		UPLOAD_TO = 'Destination/'
+		path = os.path.join(BASE_DIR, 'media/Destination')
+		if not os.path.exists(path):
+			os.makedirs(path)
 		filename = self.destination_image.name
-		_, extension = filename.split('.')
+		extension = filename.split('.')[-1]
 		new_name = f"{UPLOAD_TO}{self.destination_id}.{extension}"
 		location = r"{BASE_DIR}/media/".format(BASE_DIR=BASE_DIR)
 		os.rename(r"{location}/{filename}".format(location=location,filename=filename), r"{location}/{new_name}".format(location=location, new_name=new_name))
 		self.destination_image.name = new_name
-		print("Path = ", self.destination_image.path)
-		print("url = ", self.destination_image.url)
-		print("filename = ", self.destination_image.name)
+		# print("Path = ", self.destination_image.path)
+		# print("url = ", self.destination_image.url)
+		# print("filename = ", self.destination_image.name)
 		# super(Book, self).save(*args, **kwargs)
 		# super(Destination, self).save(*args, **kwargs)
 		# ####
@@ -145,6 +171,7 @@ class Destination(models.Model):
 		# print(f"OLD PATH: {old_path}\nNEW PATH: {new_path}")
 
 		super(Destination, self).save(*args, **kwargs)
+
 
 class Review(models.Model):
 	review_id = models.AutoField(primary_key=True)
