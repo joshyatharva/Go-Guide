@@ -11,6 +11,7 @@ from .email_settings import mail
 import random
 import string
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 
 WEBSITE = 'http://127.0.0.1:8000'
 
@@ -380,3 +381,7 @@ def read_blogs(request):
 		"blogs" : blogs,
 	}
 	return render(request, 'General/blogs.html', context)
+
+#@csrf_exempt
+#def handlerequest(request):
+#	pass

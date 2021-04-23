@@ -22,5 +22,5 @@ urlpatterns = [
 	path('write/blog', views.write_blog, name='write-blog'),
 	path('read/blogs', views.read_blogs, name='read-blogs'),
 	path('guide/<str:username>', views.guide_profile, name='guide-profile'),
-
+#	path('handlerequset/', views.handlerequest, name='Handle Request')
 ]
