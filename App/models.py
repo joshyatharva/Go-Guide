@@ -49,7 +49,7 @@ class User(AbstractUser):
 	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 	phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) 
 	profile_pic = models.ImageField(default='default.png')
-	password = 	models.CharField(max_length=50)
+	password = 	models.CharField(max_length=100)
 	account_verified = models.BooleanField(default=False)
 	# looks like the below function doesn't work
 	def create_superuser(self, username, email, password):
