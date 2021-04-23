@@ -396,4 +396,4 @@ param_dict = {
             'CHANNEL_ID':'WEB',
  	        'CALLBACK_URL':'http://localhost:8000/payment/',
 }
-return render(request, 'General/payment.html', {'param_dict': param_dict})
+#return render(request, 'General/payment.html', {'param_dict': param_dict})

@@ -56,6 +56,8 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="{% url 'aboutus' %}"
                             style="font-family: Lato, sans-serif;">About us</a></li>
+                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="{% url 'aboutus' %}"
+                            style="font-family: Lato, sans-serif;">Booking</a></li>
                     <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="blogs.html"
                             style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a>
                     </li>
@@ -66,18 +68,18 @@
         </div>
     </nav>
     <div class="form-group align-items-center align-content-center align-self-center"
-        style="padding-right: 150px;padding-left: 150px;text-align: center;padding-top: 20px;padding-bottom: 20px;height: 750.3px;margin-bottom: 15px;">
-        <form method="POST" enctype="multipart/form-data" style="margin-left: 0px;padding-right: 150px;padding-left: 150px;margin-bottom: 100px;"
-            action="{% url 'guide-profile-edit' %}">
+        style="text-align: center;padding-top: 20px;padding-bottom: 20px;height: 750.3px;margin-bottom: 15px;">
+        <form method="POST" enctype="multipart/form-data"
+            action="{% url 'guide-profile-edit' %}" style="margin-top:200px; margin-left:200px;margin-right:200px;margin-bottom:200px;">
             {% csrf_token %}
             <h2 class="text-center"
                 style="color: var(--cyan);font-family: 'Aref Ruqaa', serif;font-weight: bold;margin-bottom: 40px;font-size: 41.6px;">
                 Edit profile</h2>
-            <div class="form-group"><!-- <input class="form-control" type="text" name="place" placeholder="Place"> -->
+            <div class="form-group" ><!-- <input class="form-control" type="text" name="place" placeholder="Place"> -->
                 <input class="form-control" type="text" name="charges" placeholder="Charges">
-                <div class="form-group"><input class="form-control" type="text" name="city" placeholder="City">
-                    <div class="form-group"><input class="form-control" type="text" name="state" placeholder="State">
-                        <div class="form-group"><input class="form-control" type="text" name="country" placeholder="Country">
+                <div class="form-group"><input class="form-control" type="text" name="city" placeholder="City"></div>
+                    <div class="form-group"><input class="form-control" type="text" name="state" placeholder="State"></div>
+                        <div class="form-group"><input class="form-control" type="text" name="country" placeholder="Country"></div>
             </div>
             <h1 style="font-size: 20px;color: var(--gray-dark);margin-top: 30px;">Days Available</h1>
             <div class="container">
@@ -125,12 +127,13 @@
                         style="text-align: center;margin-left: 0px;border-top-left-radius: 15px;border-bottom-right-radius: 15px;margin-top: 35px;">Update</button>
                 </div>
             </div>
+            </div>
         </form>
 
     </div>
 
     <footer class="page-footer"
-        style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);">
+        style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);margin-top:500px" id="Contact">
         <div class="container">
             <div class="links"><a href="#">Contact me</a></div>
         </div>
