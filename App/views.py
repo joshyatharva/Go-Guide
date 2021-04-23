@@ -383,5 +383,17 @@ def read_blogs(request):
 	return render(request, 'General/blogs.html', context)
 
 #@csrf_exempt
-#def handlerequest(request):
+#def payment(request):
 #	pass
+
+param_dict = {
+            'MID':'',
+            'ORDER_ID':'',
+            'TXN_AMOUNT':'1',
+            'CUST_ID':'',
+            'INDUSTRY_TYPE_ID':'Retail',
+            'WEBSITE':'WEBSTAGING',
+            'CHANNEL_ID':'WEB',
+ 	        'CALLBACK_URL':'http://localhost:8000/payment/',
+}
+return render(request, 'General/payment.html', {'param_dict': param_dict})
