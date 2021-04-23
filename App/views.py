@@ -395,9 +395,9 @@ def book_guide(request):
 		context["guides"] = False
 	return render(request, "General/bookguide.html", context)
 	
-#@csrf_exempt
-#def payment(request):
-#	pass
+@csrf_exempt
+def payment(request):
+	pass
 
 # param_dict = {
 #             'MID':'',
