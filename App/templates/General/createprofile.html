@@ -66,7 +66,7 @@
         </div>
     </nav>
     <div class="form-group align-items-center align-content-center align-self-center"
-        style="padding-right: 150px;padding-left: 150px;text-align: center;padding-top: 20px;padding-bottom: 20px;height: 750.3px;margin-bottom: 15px;">
+        style="text-align: center;padding-top: 20px;padding-bottom: 20px;height: 750.3px;margin-bottom: 15px;">
         <form method="POST" enctype="multipart/form-data" style="margin-left: 0px;padding-right: 150px;padding-left: 150px;margin-bottom: 100px;"
             action="{% url 'create-profile' %}">
             {% csrf_token %}
@@ -74,10 +74,10 @@
                 style="color: var(--cyan);font-family: 'Aref Ruqaa', serif;font-weight: bold;margin-bottom: 40px;font-size: 41.6px;">
                 Create profile</h2>
             <div class="form-group"><!-- <input class="form-control" type="text" name="place" placeholder="Place"> -->
-                <input class="form-control" type="text" name="charges" placeholder="Charges">
-                <div class="form-group"><input class="form-control" type="text" name="city" placeholder="City">
-                    <div class="form-group"><input class="form-control" type="text" name="state" placeholder="State">
-                        <div class="form-group"><input class="form-control" type="text" name="country" placeholder="Country">
+                <input class="form-control" type="text" name="charges" placeholder="Charges" style="margin-top: 200px;margin-bottom: 200px;margin-left: 200px;margin-right: 200px;">
+                <div class="form-group"><input class="form-control" type="text" name="city" placeholder="City"></div>
+                    <div class="form-group"><input class="form-control" type="text" name="state" placeholder="State"></div>
+                        <div class="form-group"><input class="form-control" type="text" name="country" placeholder="Country"></div>
             </div>
             <h1 style="font-size: 20px;color: var(--gray-dark);margin-top: 30px;">Days Available</h1>
             <div class="container">
@@ -130,12 +130,13 @@
                         style="text-align: center;margin-left: 0px;border-top-left-radius: 15px;border-bottom-right-radius: 15px;margin-top: 10px;">Submit</button>
                 </div>
             </div>
+        </div>
         </form>
 
     </div>
 
     <footer class="page-footer"
-        style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);">
+        style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242); margin-top: 400px;">
         <div class="container">
             <div class="links"><a href="#">Contact me</a></div>
         </div>
