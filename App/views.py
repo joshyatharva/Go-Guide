@@ -237,8 +237,7 @@ def add_destination(request):
 				print("\n\nform1 VALID\n\n")
 			else:
 				print(form1.errors)
-				print("\n\nform1 NOT VALID\n\n")
-				
+				print("\n\nform1 NOT VALID\n\n")		
 
 			# name = request.POST["name"]
 			# city = request.POST["city"]
@@ -336,3 +335,15 @@ def write_blog(request):
 			return render(request, 'General/writeblog.html') 
 	else :
 		return render(request, 'General/writeblog.html')
+
+@login_required(login_url='login')
+def guide_profile(request, username):
+	user = User.objects.filter(username=username).first()
+	if user is None:
+		raise Http404("Not Found!")
+	guide = user.guide
+	context = {
+		"guide" : guide,
+	}
+	print(f"\n\n{guide.user_details.profile_pic.path}\n{guide.user_details.profile_pic.url}")
+	return render(request, "General/profile.html", context)
