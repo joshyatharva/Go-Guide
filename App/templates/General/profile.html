@@ -47,13 +47,13 @@
 
 <body style="margin: 100px;margin-left: 0px;margin-right: 0px;margin-bottom: 0px;">
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white float-right portfolio-navbar gradient" style="height: 85px;">
-        <div class="container"><a class="navbar-brand logo" href="#" style="font-family: 'Aref Ruqaa', serif;font-size: 37px;">GoGuide</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand logo" href="{% url 'index' %}" style="font-family: 'Aref Ruqaa', serif;font-size: 37px;">GoGuide</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="touristhome.html" style="font-family: Lato, sans-serif;">About us</a></li>
-                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="blogs.html" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a></li>
+                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="{% url 'aboutus' %}" style="font-family: Lato, sans-serif;">About us</a></li>
+                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="{% url 'read-blogs' %}" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a></li>
                     <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="">Contact us</a></li>
-                </ul><a href="" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;padding: 7.25px;">Help</a>
+                </ul><a href="{% url 'help' %}" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;padding: 7.25px;">Help</a>
             </div>
         </div>
     </nav>
@@ -61,10 +61,10 @@
         <div class="row" style="box-shadow: 0px 0px;">
             <div class="col-md-12 text-center align-content-center align-self-center" style="margin-bottom: 300px;margin-top: 100px;padding-right: 200px;padding-left: 200px;">
                 <div class="align-items-center align-content-center align-self-center profile-card" style="height: 675px;width: 700px;text-align: center;background: var(--white);border-style: none;box-shadow: 0px 0px 14px;">
-                    <div class="profile-back" style="background: var(--cyan);"></div><img class="rounded-circle profile-pic" src="assets/img/2.jpg">
-                    <h3 class="profile-name" style="background: var(--teal);">Lorena Norambuena Rojas</h3>
-                    <h3 class="profile-name" style="background: var(--white);color: var(--gray-dark);font-family: Lora, serif;">Rating - 4.5</h3>
-                    <h3 class="profile-name" style="background: var(--white);color: var(--gray-dark);font-family: Roboto, sans-serif;">Charges - 1000INR</h3>
+                    <div class="profile-back" style="background: var(--cyan);"></div><img class="rounded-circle profile-pic" src="{{ guide.user_details.profile_pic.url }}">
+                    <h3 class="profile-name" style="background: var(--teal);">{{ guide.user_details.first_name }}&nbsp;{{ guide.user_details.last_name }}</h3>
+                    <h3 class="profile-name" style="background: var(--white);color: var(--gray-dark);font-family: Lora, serif;">Rating - 0</h3>
+                    <h3 class="profile-name" style="background: var(--white);color: var(--gray-dark);font-family: Roboto, sans-serif;">Charges - {{ guide.charges }} INR</h3>
                     <div class="row">
                         <div class="col text-center align-items-center align-content-center align-self-center" style="text-align: center;"><button class="btn btn-primary btn-block text-center d-inline-flex" type="submit" style="width: 80px;height: 40px;border-radius: 26px;border-top-right-radius: 0px;border-bottom-left-radius: 0px;margin-left: 0px;padding: 10px;font-size: 12.5px;color: var(--white);background: var(--cyan);text-align: center;padding-left: 18px;padding-top: 5px;">BOOK</button></div>
                     </div>

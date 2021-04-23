@@ -1,0 +1,18 @@
+registration & login
+	- tourist
+	- guide
+	- admin
+
+search destination
+	- any user
+
+account verification
+	- done via email
+
+guide :
+	write blogs
+	read his own blog
+	upload documents
+	edit profile later
+	search destination
+	blogs can be read

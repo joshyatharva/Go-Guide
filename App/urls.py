@@ -20,5 +20,7 @@ urlpatterns = [
 	path('search', views.search_destination, name='search-destination'),
 	path('create/profile', views.create_profile, name='create-profile'),
 	path('write/blog', views.write_blog, name='write-blog'),
+	path('read/blogs', views.read_blogs, name='read-blogs'),
+	path('guide/<str:username>', views.guide_profile, name='guide-profile'),
 
 ]
