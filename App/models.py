@@ -122,7 +122,7 @@ class Guide(models.Model):
 	user_details = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	guide_documents = models.OneToOneField(Documents, on_delete=models.CASCADE, blank=True, null=True)
 	charges = models.PositiveIntegerField(default=1000)
-	days_available = models.OneToOneField(Days, on_delete=models.CASCADE, blank=True, null=True)
+	days_available = models.ForeignKey(Days, on_delete=models.CASCADE, blank=True, null=True)
 	location = models.ManyToManyField(Location)
 
 class Blog(models.Model):

@@ -382,18 +382,31 @@ def read_blogs(request):
 	}
 	return render(request, 'General/blogs.html', context)
 
+@login_required(login_url='login')
+@user_passes_test(is_tourist)
+@require_POST
+def book_guide(request):
+	context = {}
+	lctn = request.POST["location"]
+	guides = Guide.objects.filter(location=lctn).all()
+	if guides:
+		context["guides"] = guides
+	else:
+		context["guides"] = False
+	return render(request, "General/bookguide.html", context)
+	
 #@csrf_exempt
 #def payment(request):
 #	pass
 
-param_dict = {
-            'MID':'',
-            'ORDER_ID':'',
-            'TXN_AMOUNT':'1',
-            'CUST_ID':'',
-            'INDUSTRY_TYPE_ID':'Retail',
-            'WEBSITE':'WEBSTAGING',
-            'CHANNEL_ID':'WEB',
- 	        'CALLBACK_URL':'http://localhost:8000/payment/',
-}
-#return render(request, 'General/payment.html', {'param_dict': param_dict})
+# param_dict = {
+#             'MID':'',
+#             'ORDER_ID':'',
+#             'TXN_AMOUNT':'1',
+#             'CUST_ID':'',
+#             'INDUSTRY_TYPE_ID':'Retail',
+#             'WEBSITE':'WEBSTAGING',
+#             'CHANNEL_ID':'WEB',
+#  	        'CALLBACK_URL':'http://localhost:8000/payment/',
+# }
+# return render(request, 'General/payment.html', {'param_dict': param_dict})

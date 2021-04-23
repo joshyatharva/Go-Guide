@@ -22,5 +22,6 @@ urlpatterns = [
 	path('write/blog', views.write_blog, name='write-blog'),
 	path('read/blogs', views.read_blogs, name='read-blogs'),
 	path('guide/<str:username>', views.guide_profile, name='guide-profile'),
+	path('book/guide', views.book_guide, name='book-guide'),
 #	path('payment/', views.payment, name='Payment')
 ]

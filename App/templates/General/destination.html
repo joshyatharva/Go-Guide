@@ -64,7 +64,15 @@
             <div class="col-md-12" style="margin-top: 100px;margin-bottom: 100px;">
                 <p style="font-family:Alfa Slab One,serif;">{{ destination.description }}</p>
             </div>
-            <div class="col-md-12 align-items-center align-content-center align-self-center" style="margin-top: 100px;margin-bottom: 100px;text-align: center;"><button class="btn btn-primary" type="button" style="background: var(--blue);">Book a guide</button></div>
+
+            <div class="col-md-12 align-items-center align-content-center align-self-center" style="margin-top: 100px;margin-bottom: 100px;text-align: center;">
+                <form action="{% url 'book-guide' %}" method="POST">
+                    {% csrf_token %}
+                <input type="hidden" name="location" value="{{ destination.location.location_id }}">
+                <button class="btn btn-primary" type="submit" style="background: var(--blue);">Book a guide</button>
+                </form>
+            </div>
+            
             <div class="col" style="text-align: center;"><img src="{{ destination.destination_image.url }}" style="text-align: center;"></div>
             <div class="col-md-12" style="margin-top: 100px;margin-bottom: 76px;">
                 <section class="map-clean">
