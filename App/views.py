@@ -373,3 +373,10 @@ def guide_profile(request, username):
 	}
 	print(f"\n\n{guide.user_details.profile_pic.path}\n{guide.user_details.profile_pic.url}")
 	return render(request, "General/profile.html", context)
+
+def read_blogs(request):
+	blogs = Blog.objects.all()
+	context = {
+		"blogs" : blogs,
+	}
+	return render(request, 'General/blogs.html', context)
