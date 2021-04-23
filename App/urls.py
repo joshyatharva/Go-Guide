@@ -19,5 +19,6 @@ urlpatterns = [
 	path('addplace', views.add_destination, name='add-destination'),
 	path('search', views.search_destination, name='search-destination'),
 	path('create/profile', views.create_profile, name='create-profile'),
+	path('write/blog', views.write_blog, name='write-blog'),
 
 ]

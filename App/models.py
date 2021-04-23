@@ -130,7 +130,20 @@ class Blog(models.Model):
 	title = models.CharField(max_length=50)
 	content = models.TextField()
 	author = models.ForeignKey(Guide, on_delete=models.CASCADE)
-	blog_image = models.ImageField(upload_to=blog_image_upload)
+	blog_image = models.ImageField()
+	def save(self, *args, **kwargs):
+		super(Blog, self).save(*args, **kwargs)
+		UPLOAD_TO = 'Blogs/'
+		path = os.path.join(BASE_DIR, 'media/Blogs')
+		if not os.path.exists(path):
+			os.makedirs(path)
+		filename = self.blog_image.name
+		extension = filename.split('.')[-1]
+		new_name = f"{UPLOAD_TO}{self.blog_id}.{extension}"
+		location = r"{BASE_DIR}/media/".format(BASE_DIR=BASE_DIR)
+		os.rename(r"{location}/{filename}".format(location=location,filename=filename), r"{location}/{new_name}".format(location=location, new_name=new_name))
+		self.blog_image.name = new_name
+		super(Blog, self).save(*args, **kwargs)
 
 
 class Destination(models.Model):

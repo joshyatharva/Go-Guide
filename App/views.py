@@ -316,4 +316,23 @@ def create_profile(request):
 			return HttpResponse(f"FORM0 : {form0.errors}\nFORM1 : {form1.errors}")
 
 	else:
-		return render(request, 'General/createprofile.html') 
+		return render(request, 'General/createprofile.html')
+
+
+
+@login_required(login_url='login')
+@user_passes_test(is_guide)
+def write_blog(request):
+	if request.method == "POST":
+		x = request.POST
+		form = BlogForm(x, request.FILES)
+		if form.is_valid():
+			blog = form.save(commit=False)
+			blog.author = request.user.guide
+			blog.save()
+			return HttpResponse("<b>Blog Posted Successfully.</b>")
+		else:
+			messages.warning("Please Write Properly!")
+			return render(request, 'General/writeblog.html') 
+	else :
+		return render(request, 'General/writeblog.html')

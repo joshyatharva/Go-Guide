@@ -58,12 +58,13 @@
     </nav>
     <div class="row">
         <div class="col">
-            <form>
+            <form action="{% url 'write-blog' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="col" style="margin-bottom: 100px;margin-top: -50px;padding: 0px 200px;padding-right: 200px;padding-left: 200px;text-align: center;">
                     <h1 style="font-size: 40px;color: var(--blue);text-align: center;font-weight: bold;font-family: 'Aref Ruqaa', serif;margin-bottom: 30px;">Write Blog</h1>
-                    <h1 style="font-size: 25px;color: var(--cyan);margin-top: 75px;">Title</h1><input class="form-control" type="text">
-                    <h1 style="font-size: 25px;color: var(--cyan);margin-top: 70px;">Text<textarea class="form-control" style="height: 300px;margin-top: 20px;"></textarea></h1>
-                    <h1 style="font-size: 25px;color: var(--cyan);margin-top: 60px;">Add image</h1><input class="form-control-file" type="file" style="margin-bottom: 30px;margin-left: 20px;text-align: center;"><button class="btn btn-primary" type="button" style="text-align: center;margin-left: 0px;border-top-left-radius: 15px;border-bottom-right-radius: 15px;margin-top: 75px;">SubmiT</button>
+                    <h1 style="font-size: 25px;color: var(--cyan);margin-top: 75px;">Title of Blog</h1><input name="title" class="form-control" type="text">
+                    <h1 style="font-size: 25px;color: var(--cyan);margin-top: 70px;">Add Description<textarea name="content" class="form-control" style="height: 300px;margin-top: 20px;"></textarea></h1>
+                    <h1 style="font-size: 25px;color: var(--cyan);margin-top: 60px;">Add image</h1><input name="blog_image" class="form-control-file" type="file" style="margin-bottom: 30px;margin-left: 20px;text-align: center;"><button class="btn btn-primary" type="submit" style="text-align: center;margin-left: 0px;border-top-left-radius: 15px;border-bottom-right-radius: 15px;margin-top: 75px;">Post Blog</button>
                 </div>
             </form>
         </div>
