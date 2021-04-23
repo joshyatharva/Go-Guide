@@ -55,10 +55,12 @@ def help(request):
 
 def register(request):
 	if request.user.is_authenticated:
+		print(f"\n\nUSERNAME : {request.user.username}\n")
 		return HttpResponseRedirect(reverse('index'))
 	if request.method == "POST":
 		# print(request.POST)	
 		form = CreateUser(request.POST)
+
 		for key in form:
 			print(key, ": ", key.errors)
 		# instance = form.save()
@@ -102,6 +104,7 @@ def register(request):
 			# everything is fine
 			return HttpResponseRedirect(reverse('login')) #HttpResponse("<b>User Created Successfully</b>")
 		else:
+			return HttpResponse(f"{form.errors}")
 			# print("Form is invalid")
 			context = {
 				"form" : form,
@@ -267,8 +270,12 @@ def search_destination(request):
 	context = {}
 	if locations is not None:
 		context["destinations"] = locations
+	for location in locations:
+		print(f"\n\nURL : {location.destination_image.url}\n")
+		print(f"\n\nURL : {location.destination_image.path}\n")
 	# destination search has been done
-	return HttpResponse("<b>Rendering for timepass</b>")
+	return render(request, "General/destination.html", context)
+	# return HttpResponse("<b>Rendering for timepass</b>")
 
 @login_required(login_url='login')
 @user_passes_test(is_guide)

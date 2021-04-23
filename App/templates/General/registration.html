@@ -73,10 +73,10 @@
                     style="color: var(--blue);font-family: 'Aref Ruqaa', serif;font-weight: bold;margin-bottom: 40px;">
                     Create&nbsp; an&nbsp; Account</h2>
                 <div class="form-group">
-                    <select class="form-control form-control" name="gender"
+                    <select class="form-control form-control" name="user_type"
                         style="margin-top: 20px;margin-right: 0px;margin-bottom: 20px;margin-left: 0px;">
-                        <option value="male" selected="">Male</option>
-                        <option value="female">Female</option>
+                        <option value="True" selected="">Tourist</option>
+                        <option value="False">Guide</option>
                     </select>
                     <input class="form-control" type="text" name="first_name" placeholder="First Name">
                     <input class="form-control" type="text" name="last_name" placeholder="Last Name">
@@ -84,12 +84,11 @@
                     <input class="form-control" type="text" name="phone_number" placeholder="Mobile">
                     <select class="form-control form-control" name="gender"
                         style="margin-top: 20px;margin-right: 0px;margin-bottom: 20px;margin-left: 0px;">
-                        <option value="male" selected="">Male</option>
-                        <option value="female">Female</option>
+                        <option value="0" selected="">Male</option>
+                        <option value="1">Female</option>
                     </select>
                 </div><input class="form-control" type="email" name="email" placeholder="Email">
-        </div>
-        <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">
+                <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">
         </div>
         <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label
                 class="form-check-label" for="formCheck-1">I agree to the terms and coditions</label></div>
@@ -97,6 +96,8 @@
                 class="btn btn-primary btn-block" type="submit"
                 style="width: 90px;height: 35px;border-radius: 26px;border-top-right-radius: 0px;border-bottom-left-radius: 0px;margin-left: 0px;padding: 0px;font-size: 12.5px;color: var(--white);background: var(--cyan);">Sign
                 Up</button></div><a class="already" href="#">You already have an account? Login here.</a>
+        </div>
+        
         </form>
         </div>
     </section>

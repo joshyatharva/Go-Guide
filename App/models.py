@@ -42,7 +42,7 @@ def aadhar_upload(instance, filename):
 	return filename
 
 def certificate_upload(instance, filename):
-	_, ext = filename.split('.')
+	ext = filename.split('.')[-1]
 	path = os.path.join(BASE_DIR, f'media/Documents/{instance.document_id}')
 	if not os.path.exists(path):
 		os.makedirs(path)
@@ -52,12 +52,12 @@ def certificate_upload(instance, filename):
 
 class User(AbstractUser):
 	gender_choice = (
-		(0, 'Male'),
-		(1, 'Female'),
+		(0, 'on'),
+		(1, 'off'),
 	)
 	user_choice = (
-		(True, 'Tourist'),
-		(False, 'Guide'),
+		(True, 'on'),
+		(False, 'off'),
 	)
 	user_id = models.AutoField(primary_key=True)
 	user_type = models.BooleanField(choices=user_choice, default=True)
@@ -118,26 +118,33 @@ class Destination(models.Model):
 	location = models.ForeignKey(Location, on_delete=models.CASCADE)
 	destination_image = models.ImageField()
 	def save(self, *args, **kwargs):
+		UPLOAD_TO = 'Destination/'
 		super(Destination, self).save(*args, **kwargs)
 		filename = self.destination_image.name
-		old_path = f'{BASE_DIR}/media/{filename}'
-		new_path = destination_image_upload(self, self.destination_image.name)
-		os.rename(old_path, new_path)
-		print(f"default name = {self.destination_image.name}")
-		# self.image.name = destination_image_upload(self, destination_image.name)
-		# print("Path = ", self.image_file.path)
-		# print("url = ", self.image_file.url)
-		# print("filename = ", self.image_file.name)
+		_, extension = filename.split('.')
+		new_name = f"{UPLOAD_TO}{self.destination_id}.{extension}"
+		location = r"{BASE_DIR}/media/".format(BASE_DIR=BASE_DIR)
+		os.rename(r"{location}/{filename}".format(location=location,filename=filename), r"{location}/{new_name}".format(location=location, new_name=new_name))
+		self.destination_image.name = new_name
+		print("Path = ", self.destination_image.path)
+		print("url = ", self.destination_image.url)
+		print("filename = ", self.destination_image.name)
+		# super(Book, self).save(*args, **kwargs)
+		# super(Destination, self).save(*args, **kwargs)
+		# ####
+		# filename = self.destination_image.name
+		# ext = filename.split('.')[-1]
+
+		# old_path = f'{BASE_DIR}/media/{filename}'
+		# new_path = destination_image_upload(self, self.destination_image.name)
+		# print(f"OLD PATH: {old_path}\nNEW PATH: {new_path}")
+		# os.rename(old_path, new_path)
+		# self.destination_image.path = new_path
+		# self.destination_image.name = f"media/Destination/{self.destination_id}.{ext}"
+		# print(self.destination_image.name)
+		# print(f"OLD PATH: {old_path}\nNEW PATH: {new_path}")
+
 		super(Destination, self).save(*args, **kwargs)
-
-		# filename = self.image_file.path
-		# im = Image.open(filename)
-		# print(im.size)
-		# im = im.resize((700, 700), Image.ANTIALIAS)
-		# print(im.size)
-		# quality_val = 100
-		# im.save(filename, quality=quality_val)
-
 
 class Review(models.Model):
 	review_id = models.AutoField(primary_key=True)
