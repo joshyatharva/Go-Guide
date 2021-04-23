@@ -18,6 +18,6 @@ urlpatterns = [
 	path('acnt/not_verified', views.not_verified, name='not-verified'),
 	path('addplace', views.add_destination, name='add-destination'),
 	path('search', views.search_destination, name='search-destination'),
-	
+	path('create/profile', views.create_profile, name='create-profile'),
 
 ]

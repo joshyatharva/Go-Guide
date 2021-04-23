@@ -52,12 +52,12 @@ def certificate_upload(instance, filename):
 
 class User(AbstractUser):
 	gender_choice = (
-		(0, 'on'),
-		(1, 'off'),
+		(0, 0),
+		(1, 1),
 	)
 	user_choice = (
-		(True, 'on'),
-		(False, 'off'),
+		(True, 0),
+		(False, 1),
 	)
 	user_id = models.AutoField(primary_key=True)
 	user_type = models.BooleanField(choices=user_choice, default=True)
@@ -92,7 +92,7 @@ class Guide(models.Model):
 	guide_id = models.AutoField(primary_key=True)
 	is_verified = models.BooleanField(default=False)
 	user_details = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	guide_documents = models.OneToOneField(Documents, on_delete=models.CASCADE)
+	guide_documents = models.OneToOneField(Documents, on_delete=models.CASCADE, blank=True, null=True)
 	charges = models.PositiveIntegerField(default=1000)
 
 class Blog(models.Model):

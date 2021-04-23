@@ -15,6 +15,8 @@ from django.db.models import Q
 WEBSITE = 'http://127.0.0.1:8000'
 
 def is_tourist(user):
+	print(type(user.user_type))
+	print(user.user_type)
 	try:
 		print("\n\nIS TOURIST CALLED\n\n")
 		return (user.is_authenticated and user.user_type) # user_type == True if user is tourist
@@ -196,7 +198,7 @@ def profile_edit_guide(request):
 def verify_account(request, a, token):
 	acnt = AccountVerification.objects.filter(user_id=a, token=token).first()
 	if acnt is None:
-		return HttpResponseNotFound('<b>Atharva Set This As Not Found</b>')
+		return HttpResponseNotFound('<b>Page Not Found</b>')
 	else:
 		acnt.delete() # we no longer need it
 		user = User.objects.filter(user_id=a).first()
@@ -209,6 +211,9 @@ def not_verified(request):
 	if (not request.user.is_authenticated) or user.account_verified:
 		return HttpResponseRedirect(reverse('index'))
 	else:
+		if not user.user_type:
+			messages.info(request, "Please Check Your Email and Verify") 
+			return HttpResponseRedirect(reverse('create-profile'))
 		return render(request, 'accountnotverified.html')
 
 
