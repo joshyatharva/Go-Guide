@@ -175,7 +175,9 @@ def index_guide(request):
 	guide = user.guide
 	if not guide.is_verified:
 		return HttpResponseRedirect(reverse('create-profile'))
+	blogs = guide.blog_set.all()
 	context = {
+		"blogs" : blogs,
 		# empty for now
 	}
 	return render(request, 'General/guidehome.html', context)
@@ -188,12 +190,36 @@ def profile_edit_tourist(request):
 
 
 @login_required(login_url='login')
-@user_passes_test(is_tourist)
+@user_passes_test(is_guide)
 def profile_edit_guide(request):
+	user = request.user
+	guide = user.guide
+	if not guide.is_verified:
+		return HttpResponseRedirect(reverse('index'))
 	if request.method == "POST":
-		pass
-	else :
-		pass
+		x = request.POST
+		form0 = DaysForm(x)
+		# form1 = DocumentsForm(x, request.FILES)
+		charges = x.get("charges")
+		city = x.get("city")
+		state = x.get("state")
+		country = x.get("country")
+		lctn = Location.objects.filter(city=city, state=state, country=country).first()
+		if not lctn:
+			lctn = Location(city=city, state=state, country=country)
+			lctn.save()
+		if form0.is_valid():
+			days = form0.save()
+			guide.days_available = days
+			guide.charges = charges
+			guide.location.add(lctn)
+			guide.save()
+			return HttpResponse("<h1>Guide Edit Profile Successful</h1>")
+		else:
+			return HttpResponse(f"FORM0 : {form0.errors}\n")
+
+	else:
+		return render(request, 'General/editprofile.html')
 
 def verify_account(request, a, token):
 	acnt = AccountVerification.objects.filter(user_id=a, token=token).first()
