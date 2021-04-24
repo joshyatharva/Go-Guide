@@ -550,7 +550,6 @@ def checkout(request):
 		order_id = o.order_id
 		amount = guide.charges
 		customer_id = tourist.tourist_id
-		amount = guide.charges
 		param_dict = {
 			'MID':'',
 			'ORDER_ID':order_id,
