@@ -549,6 +549,7 @@ def checkout(request):
 		o.save()
 		order_id = o.order_id
 		customer_id = tourist.tourist_id
+		amount = guide.charges
 		param_dict = {
 			'MID':'',   #Merchant Id here
 			'ORDER_ID':'',     #order ID here
