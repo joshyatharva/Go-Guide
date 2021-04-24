@@ -207,7 +207,7 @@ def profile_edit_guide(request):
 		city = x.get("city")
 		state = x.get("state")
 		country = x.get("country")
-		lctn = Location.objects.filter(city=city, state=state, country=country).first()
+		lctn = Location.objects.filter(city__icontains=city, state__icontains=state, country__icontains=country).first()
 		if not lctn:
 			lctn = Location(city=city, state=state, country=country)
 			lctn.save()
@@ -278,17 +278,6 @@ def add_destination(request):
 				print(form1.errors)
 				print("\n\nform1 NOT VALID\n\n")		
 
-			# name = request.POST["name"]
-			# city = request.POST["city"]
-			# state = request.POST["state"]
-			# country = request.POST["country"]
-			# description = request.POST["description"]
-			# link_to_location = request.POST["link_to_location"]
-			# image = request.FILES["image"]
-			# lctn = Location(city=city, state=state, country=country)
-			# lctn.save()
-			# dstn = Destination(name=name, description=description, link_to_location=link_to_location, destination_image=image, location=lctn)
-			# dstn.save()
 		except Exception as e:
 			return HttpResponse(f"<b>Destination Not Added to The database :: {e}</b>")
 		return HttpResponse("<b>Location Added Successfully</b>")
@@ -297,7 +286,7 @@ def add_destination(request):
 
 @require_POST
 def search_destination(request):
-	destination = request.POST["destination"]
+	destination = request.POST.get("destination")
 	destinations = " ".join(destination.split())
 	destinations = destinations.split()
 	locations = None
@@ -335,12 +324,22 @@ def create_profile(request):
 		city = x.get("city")
 		state = x.get("state")
 		country = x.get("country")
-		lctn = Location.objects.filter(city=city, state=state, country=country).first()
+		lctn = Location.objects.filter(city__icontains=city, state__icontains=state, country__icontains=country).first()
 		if not lctn:
 			lctn = Location(city=city, state=state, country=country)
 			lctn.save()
 		if form0.is_valid() and form1.is_valid():
-			days = form0.save()
+			data = form0.cleaned_data
+			mon = data.get('mon')
+			tue = data.get('tue')
+			wed = data.get('wed')
+			thu = data.get('thu')
+			fri = data.get('fri')
+			sat = data.get('sat')
+			sun = data.get('sun')
+			days = Days.objects.filter(mon=mon, tue=tue, wed=wed, thu=thu, fri=fri, sat=sat, sun=sun).first()
+			if days is None:
+				days = form0.save()
 			documents = form1.save()
 			guide.guide_documents = documents
 			guide.days_available = days
@@ -399,12 +398,13 @@ def read_blogs(request):
 @require_POST
 def book_guide(request):
 	context = {}
-	lctn = request.POST["location"]
+	lctn = request.POST.get("location")
 	guides = Guide.objects.filter(location=lctn).all()
 	if guides:
 		context["guides"] = guides
 	else:
 		context["guides"] = False
+	context["location"] = lctn
 	return render(request, "General/bookguide.html", context)
 
 @require_POST
@@ -422,7 +422,53 @@ def book(request):
 @login_required(login_url='login')
 @user_passes_test(is_tourist)
 def guide_filter(request):
-	return HttpResponse("<h1>Filer Accepted</h1>")
+	lctn = request.POST.get('location')
+	gender = request.POST.get('gender')
+	days = request.POST.get('days')
+	sort = request.POST.get('sort')
+	guides = False
+	if gender == "2":
+		guides = Guide.objects.filter(location=lctn).all()
+	elif gender == "1":
+		guides = Guide.objects.filter(location=lctn, user_details__gender=False).all()
+	elif gender == "0":
+		guides = Guide.objects.filter(location=lctn, user_details__gender=True).all()
+	else:
+		guides = Guide.objects.none()
+	if days == "2":
+		guides = guides.filter(available=True).all()
+	elif days == "mon":
+		guides = guides.filter(days_available__mon=True).all()
+	elif days == "tue":
+		guides = guides.filter(days_available__tue=True).all()
+	elif days == "wed":
+		guides = guides.filter(days_available__wed=True).all()
+	elif days == "thu":
+		guides = guides.filter(days_available__thu=True).all()
+	elif days == "fri":
+		guides = guides.filter(days_available__fri=True).all()
+	elif days == "sat":
+		guides = guides.filter(days_available__sat=True).all()
+	elif days == "sun":
+		guides = guides.filter(days_available__sun=True).all()
+	else:
+		guides = Guide.objects.none() # does not exist
+	if sort == "2":
+		pass
+	elif sort == "p0":
+		guides = guides.order_by('charges')
+	elif sort == "p1":
+		guides = guides.order_by('-charges')
+	elif sort == "r0":
+		guides = guides.order_by('rating')
+	elif sort == "r1":
+		guides = guides.order_by('-rating')
+	else :
+		guides = Guide.objects.none()
+	context = {}
+	context["guides"] = guides
+	context["location"] = lctn
+	return render(request, 'General/bookguide.html', context)
 	pass
 
 # def checkout(request):

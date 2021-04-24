@@ -242,39 +242,43 @@
         class="portfolio-block projects-cards"
         style="margin-bottom: 50px; margin-top: 25px;padding:50px;"
       >
-      <form action="guide-filter" method="POST" style="padding:5px;">
+      <form action="{% url 'guide-filter' %}" method="POST" style="padding:5px;">
+        <input type="hidden" name="location" value="{{ location }}">
+        {% csrf_token %}
         <div class="container">
           <div class="row">
             <div class="col-md-4">
               <p class="lead text-center mb-0">Gender:</p>
               <select class="form-control" name="gender">
-                <option value="all"></option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="unisex" selected="">Unisex</option>
+                <!-- <option value="all"></option> -->
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+                <option value="2" selected="">Unisex</option>
               </select>
             </div>
             <div class="col-md-4">
               <p class="lead text-center mb-0">Day:</p>
-              <select class="form-control" name="days">
-                <option value="mon" selected>monday</option>
-                <option value="tue">tuesday</option>
-                <option value="wed">wednesday</option>
-                <option value="wed">wednesday</option>
-                <option value="fri">friday</option>
-                <option value="sat">saturday</option>
-                <option value="sun">sunday</option>
+              <select class="form-control" name="days" value="tue">
+                <option value="mon">Monday</option>
+                <option value="tue">Tuesday</option>
+                <option value="wed">Wednesday</option>
+                <option value="thu">Thursday</option>
+                <option value="fri">Friday</option>
+                <option value="sat">Saturday</option>
+                <option value="sun">Sunday</option>
+                <option value="2">Any Day</option>
               </select>
             </div>
             <div class="col-md-4">
               <p class="lead text-center mb-0">Sort By:</p>
               <select class="form-control" name="sort">
-                <option value="price_low_to_high" selected="">
+                <option value="p0" selected="">
                   Price: Low to High
                 </option>
-                <option value="price_high_to_low">Price: High to Low</option>
-                <option value="review_low_to_high">Reviews:Low to High</option>
-                <option value="review_high_to_low">Reviews:High to Low</option>
+                <option value="p1">Price: High to Low</option>
+                <option value="r0">Reviews:Low to High</option>
+                <option value="r1">Reviews:High to Low</option>
+                <option value="2" selected>All</option>
               </select>
             </div>
           </div>

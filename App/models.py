@@ -123,7 +123,9 @@ class Guide(models.Model):
 	guide_documents = models.OneToOneField(Documents, on_delete=models.CASCADE, blank=True, null=True)
 	charges = models.PositiveIntegerField(default=1000)
 	days_available = models.ForeignKey(Days, on_delete=models.CASCADE, blank=True, null=True)
+	available = models.BooleanField(default=False)
 	location = models.ManyToManyField(Location)
+	rating = models.FloatField(default=0)
 
 class Blog(models.Model):
 	blog_id = models.AutoField(primary_key=True)
