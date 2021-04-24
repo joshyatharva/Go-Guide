@@ -1,0 +1,335 @@
+{% load static %} {% load widget_tweaks %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>HME</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/bootstrap/css/bootstrap.min.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Actor"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Akaya+Kanadaka"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Akaya+Telivigala"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Alfa+Slab+One"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Almendra+SC"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Aref+Ruqaa"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lora"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Roboto.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/fonts/font-awesome.min.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/fonts/ionicons.min.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Article-Clean.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Article-List.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/best-carousel-slide.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Carousel.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Contact-Form-Clean.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Custom-Checkbox.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Elegant-Registration-Form.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Filter.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/image-card-materialize-1.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/image-card-materialize.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Latest-Blog.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Lightbox-Gallery.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Login-Form-Clean.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Map-Clean.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Pretty-Search-Form.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Profile-Card-1.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Registration-Form-with-Photo.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/shopping-ecommerce-products.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Single-Page-Contact-Us-Form.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Team-Clean.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/Team-with-rotating-cards.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'App/assets/css/untitled.css' %}"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-dark navbar-expand-lg fixed-top bg-white float-right portfolio-navbar gradient"
+      style="height: 85px; margin-top: 0px"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand logo"
+          href="#"
+          style="font-family: 'Aref Ruqaa', serif; font-size: 37px"
+          >GoGuide</a
+        ><button
+          data-toggle="collapse"
+          class="navbar-toggler"
+          data-target="#navbarNav"
+        >
+          <span class="sr-only">Toggle navigation</span
+          ><span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item" style="padding-right: 0px">
+              <a
+                class="nav-link"
+                href="aboutus.html"
+                style="font-family: Lato, sans-serif"
+                >About us</a
+              >
+            </li>
+            <li class="nav-item" style="padding-right: 0px">
+              <a
+                class="nav-link"
+                href="blogs.html"
+                style="
+                  font-family: Lato, sans-serif;
+                  color: var(--light);
+                  filter: brightness(99%) saturate(73%);
+                  font-size: 16px;
+                "
+                >Blogs</a
+              >
+            </li>
+            <li class="nav-item" style="padding-right: 0px">
+              <a class="nav-link" href="">Contact us</a>
+            </li>
+          </ul>
+          <a
+            href=""
+            style="
+              font-family: Lato, sans-serif;
+              color: var(--light);
+              filter: brightness(99%) saturate(73%);
+              font-size: 16px;
+              padding: 7.25px;
+            "
+            >Help</a
+          ><a
+            href=""
+            style="
+              font-family: Lato, sans-serif;
+              color: var(--light);
+              filter: brightness(99%) saturate(73%);
+              font-size: 16px;
+              padding: 7.25px;
+            "
+            >Log out</a
+          >
+        </div>
+      </div>
+    </nav>
+    <div class="row" style="margin-top: 200px; padding: 0px 200px">
+      <div class="col">
+        <h1>Location : _________</h1>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 0px; padding: 0px 200px">
+      <div class="col">
+        <p>City : __________</p>
+        <p>State : __________</p>
+        <p>Country : _________</p>
+        <p>charge : _________</p>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 0px; padding: 0px 200px">
+      <div class="col">
+        <form>
+          <div>
+            <select class="form-control" name="sort">
+              <option value="2" {{ All }}>All</option>
+              <option value="p0" {{ p0 }}>Price: Low to High</option>
+              <option value="p1" {{ p1 }}>Price: High to Low</option>
+              <option value="r0" {{ r0 }}>Reviews:Low to High</option>
+              <option value="r1" {{ r1 }}>Reviews:High to Low</option>
+            </select>
+          </div>
+          <button
+            class="btn btn-secondary"
+            type="submit"
+            style="margin-top: 10px"
+          >
+            SUBMIT
+          </button>
+        </form>
+      </div>
+    </div>
+    <footer
+      class="page-footer"
+      style="
+        color: rgb(41, 101, 162);
+        background: linear-gradient(120deg, #7f70f5, #0ea0ff),
+          rgb(193, 131, 242);
+        margin-top: 300px;
+      "
+    >
+      <div class="container">
+        <div class="links"><a href="#">Contact me</a></div>
+      </div>
+      <div class="social-icons">
+        <a href="#" style="background: var(--indigo)"
+          ><i class="icon ion-social-facebook"></i></a
+        ><a href="#" style="background: #51242f; color: var(--white)"
+          ><i class="icon ion-social-instagram-outline"></i></a
+        ><a href="#" style="background: var(--blue)"
+          ><i class="icon ion-social-twitter"></i
+        ></a>
+      </div>
+    </footer>
+    <script
+      src="{% static 'App/assets/js/jquery.min.js' %}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{% static 'App/assets/bootstrap/js/bootstrap.min.js' %}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{% static 'App/assets/js/image-card-materialize.js' %}"
+      type="text/javascript"
+    ></script>
+    <script
+      src="{% static 'App/assets/js/theme.js' %}"
+      type="text/javascript"
+    ></script>
+  </body>
+</html>
