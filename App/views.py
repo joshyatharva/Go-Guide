@@ -24,10 +24,6 @@ def next_weekday(d, weekday):
         days_ahead += 7
     return d + datetime.timedelta(days_ahead)
 
-d = datetime.date(2011, 7, 2)
-next_monday = next_weekday(d, 0) # 0 = Monday, 1=Tuesday, 2=Wednesday...
-print(next_monday)
-
 def is_tourist(user):
 	print(type(user.user_type))
 	print(user.user_type)
@@ -558,9 +554,9 @@ def checkout(request):
 		lid = request.POST.get('location_id')
 		guide = Guide.objects.filter(pk=gid).first()
 		lctn = Location.objects.filter(pk=lid).first()
-		o = Orders(amount=guide.charges, tourist=tourist, guide=guide, location=lctn)
-		o.save()
-		order_id = o.order_id
+		b = Booking(amount=guide.charges, tourist=tourist, guide=guide, location=lctn)
+		b.save()
+		order_id = b.booking_id
 		amount = guide.charges
 		customer_id = tourist.tourist_id
 		param_dict = {
@@ -580,16 +576,21 @@ def checkout(request):
 @csrf_exempt
 def payment(request):
 	form = request.POST
+	with open("firstpayment.txt", 'w') as f:
+		f.write(form)
 	response_dict = {}
 	for i in form.keys():
 		response_dict[i] = form[i]
 		if i == 'CHECKSUMHASH':
 			checksum = form[i]
-
+	booking_id = response_dict["ORDERID"]
+	b = Booking.objects.filter(pk=booking_id)
 	verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
 	if verify:
 		if response_dict['RESPCODE'] == '01':
 			print('order successful')
+			b.status = True
 		else:
 			print('order was not successful because' + response_dict['RESPMSG'])
+			b.status = False
 	return render(request, 'General/Paymentstatus.html', {'response': response_dict})

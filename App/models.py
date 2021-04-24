@@ -5,6 +5,7 @@ from django.conf import settings
 import os
 import PIL
 from GoGuide.settings import BASE_DIR
+import datetime
 # validators should be a list
 # Create your models here.
 def pan_upload(instance, filename):
@@ -185,9 +186,12 @@ class AccountVerification(models.Model):
 	token = models.CharField(max_length=50)
 	user_id = models.IntegerField()
 
-class Orders(models.Model):
-	order_id = models.AutoField(primary_key=True)
+class Booking(models.Model):
+	booking_id = models.AutoField(primary_key=True)
 	amount = models.PositiveIntegerField(default=0)
 	tourist = models.ForeignKey(Tourist, on_delete=models.CASCADE)
 	guide = models.ForeignKey(Guide, on_delete=models.CASCADE)
 	location = models.ForeignKey(Location, on_delete=models.CASCADE)
+	date = models.DateField(auto_now=True)
+	status = models.BooleanField(default=False)
+	# payment success : => status = True
