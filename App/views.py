@@ -545,7 +545,7 @@ def checkout(request):
 		lid = request.POST.get('location_id')
 		guide = Guide.objects.filter(pk=gid).first()
 		lctn = Location.objects.filter(pk=lid).first()
-		o = Order(amount=guide.charges, tourist=tourist, guide=guide, location=lctn)
+		o = Orders(amount=guide.charges, tourist=tourist, guide=guide, location=lctn)
 		o.save()
 		order_id = o.order_id
 		amount = guide.charges
