@@ -10,12 +10,23 @@ from .forms import *
 from .email_settings import mail
 import random
 import string
+import datetime
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from .Paytm import Checksum
-MERCHANT_KEY = ''
+MERCHANT_KEY = 'i3fvlO'
 
 WEBSITE = 'http://127.0.0.1:8000'
+
+def next_weekday(d, weekday):
+    days_ahead = weekday - d.weekday()
+    if days_ahead <= 0: # Target day already happened this week
+        days_ahead += 7
+    return d + datetime.timedelta(days_ahead)
+
+d = datetime.date(2011, 7, 2)
+next_monday = next_weekday(d, 0) # 0 = Monday, 1=Tuesday, 2=Wednesday...
+print(next_monday)
 
 def is_tourist(user):
 	print(type(user.user_type))
@@ -48,7 +59,7 @@ def index(request):
 			"destinations" : destinations,
 		}
 	except Exception as e:
-		context = {}
+		context["destinations"] = False
 	return render(request, 'General/homepage.html', context)
 
 def aboutus(request):
@@ -304,6 +315,8 @@ def search_destination(request):
 	context = {}
 	if locations is not None:
 		context["destinations"] = locations
+	else:
+		context["destinations"] = False
 	for location in locations:
 		print(f"\n\nURL : {location.destination_image.url}\n")
 		print(f"\n\nURL : {location.destination_image.path}\n")
