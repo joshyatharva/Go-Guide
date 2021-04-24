@@ -212,7 +212,17 @@ def profile_edit_guide(request):
 			lctn = Location(city=city, state=state, country=country)
 			lctn.save()
 		if form0.is_valid():
-			days = form0.save()
+			data = form0.cleaned_data
+			mon = data.get('mon')
+			tue = data.get('tue')
+			wed = data.get('wed')
+			thu = data.get('thu')
+			fri = data.get('fri')
+			sat = data.get('sat')
+			sun = data.get('sun')
+			days = Days.objects.filter(mon=mon, tue=tue, wed=wed, thu=thu, fri=fri, sat=sat, sun=sun).first()
+			if days is None:
+				days = form0.save()
 			guide.days_available = days
 			guide.charges = charges
 			guide.location.add(lctn)
