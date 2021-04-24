@@ -242,6 +242,7 @@
         class="portfolio-block projects-cards"
         style="margin-bottom: 50px; margin-top: 25px;padding:50px;"
       >
+      {% if guides %}
       <form action="{% url 'guide-filter' %}" method="POST" style="padding:5px;">
         <input type="hidden" name="location" value="{{ location }}">
         {% csrf_token %}
@@ -251,34 +252,32 @@
               <p class="lead text-center mb-0">Gender:</p>
               <select class="form-control" name="gender">
                 <!-- <option value="all"></option> -->
-                <option value="0">Male</option>
-                <option value="1">Female</option>
-                <option value="2" selected="">Unisex</option>
+                <option value="2" {{ unisex }} >Unisex</option>
+                <option value="0" {{ male }} >Male</option>
+                <option value="1" {{ female }} >Female</option>
               </select>
             </div>
             <div class="col-md-4">
               <p class="lead text-center mb-0">Day:</p>
               <select class="form-control" name="days" value="tue">
-                <option value="mon">Monday</option>
-                <option value="tue">Tuesday</option>
-                <option value="wed">Wednesday</option>
-                <option value="thu">Thursday</option>
-                <option value="fri">Friday</option>
-                <option value="sat">Saturday</option>
-                <option value="sun">Sunday</option>
-                <option value="2">Any Day</option>
+                <option value="2" {{ anyday }} >Any Day</option>
+                <option value="mon" {{ mon }} >Monday</option>
+                <option value="tue" {{ tue }} >Tuesday</option>
+                <option value="wed" {{ wed }}  >Wednesday</option>
+                <option value="thu" {{ thu }} >Thursday</option>
+                <option value="fri" {{ fri }} >Friday</option>
+                <option value="sat" {{ sat }}>Saturday</option>
+                <option value="sun" {{ sun }} >Sunday</option>
               </select>
             </div>
             <div class="col-md-4">
               <p class="lead text-center mb-0">Sort By:</p>
               <select class="form-control" name="sort">
-                <option value="p0" selected="">
-                  Price: Low to High
-                </option>
-                <option value="p1">Price: High to Low</option>
-                <option value="r0">Reviews:Low to High</option>
-                <option value="r1">Reviews:High to Low</option>
-                <option value="2" selected>All</option>
+                <option value="2" {{ All }} >All</option>
+                <option value="p0" {{ p0 }} >Price: Low to High</option>
+                <option value="p1" {{ p1 }} >Price: High to Low</option>
+                <option value="r0" {{ r0 }} >Reviews:Low to High</option>
+                <option value="r1" {{ r1 }} >Reviews:High to Low</option>
               </select>
             </div>
           </div>
@@ -315,7 +314,7 @@
             <h2>Guides Available</h2>
           </div>
           <div class="row">
-          {% if guides %}
+          <!-- {% if guides %} -->
           	{% for guide in guides %}
             <div class="col-md-6 col-lg-4">
               <div class="card border-0">
@@ -326,26 +325,38 @@
                     alt="Card Image"
                 /></a>
                 <div class="card-body">
-                  <h6><a href="#">{{ guide.user_details.first_name }}&nbsp;{{ guide.user.last_name }}</a></h6>
+                  <h6><a href="#">{{ guide.user_details.first_name }}&nbsp;{{ guide.user_details.last_name }}</a></h6>
                   <p class="text-muted card-text">
-                    {{ guide.user_details.username }}
+                    {{ guide.user_details.username }}<br/>
+                    Charges : {{ guide.charges }}<br/>
+                    Rating : {{ guide.rating }}<br/>
                   </p>
                   <p class="text-muted card-text">
-                    Rating : 0
+                    
+                  </p>
+                  <p class="text-muted card-text">
+                    <!-- Rating : {{ guide.rating }} -->
                   </p>
                 </div>
               </div>
             </div>
             {% endfor %}
           </div>
-          {% else %}
-          <div class="container" style="margin-top: 75px">
-      		<div class="heading">
+          <!-- {% else %} -->
+          <!-- <div class="container" style="margin-top: 75px">
+      		  <div class="heading">
             	<h2>Ugh! No Guides Available ;(</h2>
-	         </div>
-	      </div>
-          {% endif %}
+	          </div>
+	        </div> -->
+          <!-- {% endif %} -->
         </div>
+        {% else %}
+          <div class="container" style="margin-top: 75px">
+            <div class="heading">
+              <h2>Ugh! No Guides Available ;(</h2>
+            </div>
+          </div>
+        {% endif %}
       </section>
     </main>
     <footer

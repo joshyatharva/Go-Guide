@@ -426,46 +426,63 @@ def guide_filter(request):
 	gender = request.POST.get('gender')
 	days = request.POST.get('days')
 	sort = request.POST.get('sort')
-	guides = False
+	guides = False;
+	mon=None;tue=None;wed=None;thu=None;fri=None;sat=None;sun=None;anyday=None;male=None;female=None;unisex=None;p0=None;p1=None;r0=None;r1=None;All=None;
 	if gender == "2":
 		guides = Guide.objects.filter(location=lctn).all()
+		unisex = "selected"
 	elif gender == "1":
-		guides = Guide.objects.filter(location=lctn, user_details__gender=False).all()
-	elif gender == "0":
 		guides = Guide.objects.filter(location=lctn, user_details__gender=True).all()
+		female = "selected"
+	elif gender == "0":
+		guides = Guide.objects.filter(location=lctn, user_details__gender=False).all()
+		male = "selected"
 	else:
 		guides = Guide.objects.none()
 	if days == "2":
 		guides = guides.filter(available=True).all()
+		anyday = "selected"
 	elif days == "mon":
 		guides = guides.filter(days_available__mon=True).all()
+		mon = "selected"
 	elif days == "tue":
 		guides = guides.filter(days_available__tue=True).all()
+		tue = "selected"
 	elif days == "wed":
 		guides = guides.filter(days_available__wed=True).all()
+		wed = "selected"
 	elif days == "thu":
 		guides = guides.filter(days_available__thu=True).all()
+		thu = "selected"
 	elif days == "fri":
 		guides = guides.filter(days_available__fri=True).all()
+		fri = "selected"
 	elif days == "sat":
 		guides = guides.filter(days_available__sat=True).all()
+		sat = "selected"
 	elif days == "sun":
 		guides = guides.filter(days_available__sun=True).all()
+		sun = "selected"
 	else:
 		guides = Guide.objects.none() # does not exist
 	if sort == "2":
+		All = "selected"
 		pass
 	elif sort == "p0":
 		guides = guides.order_by('charges')
+		p0 = "selected"
 	elif sort == "p1":
 		guides = guides.order_by('-charges')
+		p1 = "selected"
 	elif sort == "r0":
 		guides = guides.order_by('rating')
+		r0 = "selected"
 	elif sort == "r1":
 		guides = guides.order_by('-rating')
+		r1 = "selected"
 	else :
 		guides = Guide.objects.none()
-	context = {}
+	context = {"All":All,"unisex":unisex,"anyday":anyday,"mon":mon,"tue":tue,"wed":wed,"thu":thu,"fri":fri,"sat":sat,"sun":sun,"p0":p0,"p1":p1,"r0":r0,"r1":r1,"male":male,"female":female}	
 	context["guides"] = guides
 	context["location"] = lctn
 	return render(request, 'General/bookguide.html', context)
