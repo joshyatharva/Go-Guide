@@ -196,6 +196,8 @@ def profile_edit_tourist(request):
 @user_passes_test(is_guide)
 def profile_edit_guide(request):
 	user = request.user
+	if not user.account_verified:
+		return HttpResponseRedirect('not-verified')
 	guide = user.guide
 	if not guide.is_verified:
 		return HttpResponseRedirect(reverse('index'))
@@ -251,9 +253,8 @@ def not_verified(request):
 	if (not user.is_authenticated) or user.account_verified:
 		return HttpResponseRedirect(reverse('index'))
 	else:
-		if not user.user_type:
-			messages.info(request, "Please Check Your Email and Verify") 
-			return HttpResponseRedirect(reverse('create-profile'))
+		messages.info(request, "Please Check Your Email and Verify") 
+		# return HttpResponseRedirect(reverse('create-profile'))
 		return render(request, 'General/accountnotverified.html')
 
 
@@ -314,6 +315,8 @@ def search_destination(request):
 @user_passes_test(is_guide)
 def create_profile(request):
 	user = request.user
+	if not user.account_verified:
+		return HttpResponseRedirect('not-verified')
 	guide = user.guide
 	if guide.is_verified:
 		return HttpResponseRedirect(reverse('index'))
@@ -377,8 +380,11 @@ def write_blog(request):
 
 @login_required(login_url='login')
 def guide_profile(request, username):
+	user = request.user
+	if not user.account_verified:
+		return HttpResponseRedirect('not-verified')
 	user = User.objects.filter(username=username).first()
-	if user is None:
+	if user is None or user.user_type or (not user.guide.is_verified):
 		raise Http404("Not Found!")
 	guide = user.guide
 	reviews = guide.review_set.all()
@@ -414,7 +420,7 @@ def read_blogs(request):
 def book_guide(request):
 	context = {}
 	lctn = request.POST.get("location")
-	guides = Guide.objects.filter(location=lctn).all()
+	guides = Guide.objects.filter(location=lctn, is_verified=True).all()
 	if guides:
 		context["guides"] = guides
 	else:
@@ -427,7 +433,7 @@ def book_guide(request):
 @user_passes_test(is_tourist)
 def book(request):
 	gd_id = request.POST.get('guide_id')
-	guide = Guide.objects.filter(pk=gd_id).first()
+	guide = Guide.objects.filter(pk=gd_id, is_verified=True).first()
 	if guide is None:
 		raise Http404("<h1>Page Not Found</h1>")
 	else:
@@ -437,6 +443,9 @@ def book(request):
 @login_required(login_url='login')
 @user_passes_test(is_tourist)
 def guide_filter(request):
+	user = request.user
+	if not user.account_verified:
+		return HttpResponseRedirect('not-verified')
 	lctn = request.POST.get('location')
 	gender = request.POST.get('gender')
 	days = request.POST.get('days')
@@ -444,13 +453,13 @@ def guide_filter(request):
 	guides = False;
 	mon=None;tue=None;wed=None;thu=None;fri=None;sat=None;sun=None;anyday=None;male=None;female=None;unisex=None;p0=None;p1=None;r0=None;r1=None;All=None;
 	if gender == "2":
-		guides = Guide.objects.filter(location=lctn).all()
+		guides = Guide.objects.filter(location=lctn, is_verified=True).all()
 		unisex = "selected"
 	elif gender == "1":
-		guides = Guide.objects.filter(location=lctn, user_details__gender=True).all()
+		guides = Guide.objects.filter(location=lctn, user_details__gender=True, is_verified=True).all()
 		female = "selected"
 	elif gender == "0":
-		guides = Guide.objects.filter(location=lctn, user_details__gender=False).all()
+		guides = Guide.objects.filter(location=lctn, user_details__gender=False, is_verified=True).all()
 		male = "selected"
 	else:
 		guides = Guide.objects.none()
@@ -512,7 +521,7 @@ def review_guide(request):
 	rating = int(request.POST.get('rating'))
 	guide_id = request.POST.get('guide_id')
 	print(description, " ", rating, " ", guide_id)
-	guide = Guide.objects.filter(pk=guide_id).first()
+	guide = Guide.objects.filter(pk=guide_id, is_verified=True).first()
 	if guide is None:
 		raise Http404("<h1>Page Not found</h1>")
 	review = Review(description=description, rating=rating, guide_review=guide, reviewer=request.user.tourist)

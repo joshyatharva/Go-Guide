@@ -78,19 +78,19 @@
                         <option value="True" selected="">Tourist</option>
                         <option value="False">Guide</option>
                     </select>
-                    <input class="form-control" type="text" name="first_name" placeholder="First Name">
-                    <input class="form-control" type="text" name="last_name" placeholder="Last Name">
-                    <input class="form-control" type="text" name="username" placeholder="User Name">
-                    <input class="form-control" type="text" name="phone_number" placeholder="Mobile">
+                    <input class="form-control" type="text" name="first_name" placeholder="First Name" required>
+                    <input class="form-control" type="text" name="last_name" placeholder="Last Name" required>
+                    <input class="form-control" type="text" name="username" placeholder="User Name" required>
+                    <input class="form-control" type="text" name="phone_number" placeholder="Mobile" required>
                     <select class="form-control form-control" name="gender"
                         style="margin-top: 20px;margin-right: 0px;margin-bottom: 20px;margin-left: 0px;">
-                        <option value="0" selected="">Male</option>
+                        <option value="0" selected  required>Male</option>
                         <option value="1">Female</option>
                     </select>
-                </div><input class="form-control" type="email" name="email" placeholder="Email">
-                <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">
+                </div><input class="form-control" type="email" name="email" placeholder="Email" required>
+                <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"  required>
         </div>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"  required><label
                 class="form-check-label" for="formCheck-1">I agree to the terms and coditions</label></div>
         <div class="form-group" style="padding: 30px;padding-right: 30px;padding-left: 307px;"><button
                 class="btn btn-primary btn-block" type="submit"
