@@ -13,11 +13,12 @@ import string
 import datetime
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from .Paytm import Checksum
-MERCHANT_KEY = 'i3fvlO'
+import paytmchecksum as PaytmChecksum
+# from .Paytm import Checksum
+from .credentials import MID, MERCHANT_KEY, MY_KEY
 
 WEBSITE = 'http://127.0.0.1:8000'
-
+CHECKSUMVERIFY = None
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
     if days_ahead <= 0: # Target day already happened this week
@@ -443,10 +444,63 @@ def book_guide(request):
 def book(request):
 	gd_id = request.POST.get('guide_id')
 	guide = Guide.objects.filter(pk=gd_id, is_verified=True).first()
+
 	if guide is None:
 		raise Http404("<h1>Page Not Found</h1>")
-	else:
-		return HttpResponse("<h1>Yet To Be Processed</h1>")
+	lctn = guide.location.first()
+	bookings = guide.booking_set.all()
+	todays_date = datetime.date.today()
+	bookings = bookings.filter(date__gte=todays_date).all()
+	dates_not_available = []
+	for booking in bookings:
+		dates_not_available.append(booking.date)
+	days = guide.days_available
+	# 0 = Monday, 1=Tuesday, 2=Wednesday...
+	available_dates = []
+	mon = days.mon
+	tue = days.tue
+	wed = days.wed
+	thu = days.thu
+	fri = days.fri
+	sat = days.sat
+	sun = days.sun
+	if mon:
+		d = next_weekday(todays_date, 0)
+		if d not in dates_not_available:
+			available_dates.append(["Monday", d])
+	if tue:
+		d = next_weekday(todays_date, 1)
+		if d not in dates_not_available:
+			available_dates.append(["Tuesday", d])
+	if wed:
+		d = next_weekday(todays_date, 2)
+		if d not in dates_not_available:
+			available_dates.append(["Wednesday", d])
+
+	if thu:
+		d = next_weekday(todays_date, 3)
+		if d not in dates_not_available:
+			available_dates.append(["Thursday", d])
+	if fri:
+		d = next_weekday(todays_date, 4)
+		if d not in dates_not_available:
+			available_dates.append(["Friday", d])
+	if sat:
+		d = next_weekday(todays_date, 5)
+		if d not in dates_not_available:
+			available_dates.append(["Saturday", d])
+	if sun:
+		d = next_weekday(todays_date, 6)
+		if d not in dates_not_available:
+			available_dates.append(["Sunday", d])
+	if not available_dates:
+		available_dates = False
+	context = {
+		"guide" : guide,
+		"location" : lctn,
+		"dates" : available_dates,
+	}	
+	return render(request, 'General/bookconfirm.html', context)
 
 @require_POST
 @login_required(login_url='login')
@@ -546,6 +600,8 @@ def review_guide(request):
 @login_required(login_url='login')
 @user_passes_test(is_tourist)
 def checkout(request):
+	user = request.user
+	# return HttpResponse("<h1>In Progress</h1>")
 	if not user.account_verified:
 		return HttpResponseRedirect(reverse('not-verified'))
 	if request.method == "POST":
@@ -556,36 +612,44 @@ def checkout(request):
 		lctn = Location.objects.filter(pk=lid).first()
 		b = Booking(amount=guide.charges, tourist=tourist, guide=guide, location=lctn)
 		b.save()
-		order_id = b.booking_id
+		order_id = f"ORDERID_{b.booking_id}"
 		amount = guide.charges
 		customer_id = tourist.tourist_id
 		param_dict = {
-			'MID':'',
-			'ORDER_ID':order_id,
-			'TXN_AMOUNT':amount,
-			'CUST_ID':customer_id,
+			'MID': str(MID),
+			'ORDER_ID': str(order_id),
+			'TXN_AMOUNT': str(amount),
+			'CUST_ID': tourist.user_details.email,
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'WEBSTAGING',
 			'CHANNEL_ID':'WEB',
-			'CALLBACK_URL':'http://localhost:8000/payment/',
+			'CALLBACK_URL':'http://localhost:8000/payment',
 		}
-		param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-		return render(request, 'General/payment.html', {'param_dict': param_dict})
+		global CHECKSUMVERIFY
+		param_dict['CHECKSUMHASH'] = PaytmChecksum.generateSignature(param_dict, MERCHANT_KEY)
+		CHECKSUMVERIFY = param_dict["CHECKSUMHASH"]
+		return render(request, 'General/payment.html', {'param_dict': param_dict, })
 	return render(request, 'General/checkout.html')
 
 @csrf_exempt
 def payment(request):
 	form = request.POST
-	with open("firstpayment.txt", 'w') as f:
-		f.write(form)
+	
 	response_dict = {}
+	checksum = None
+	print("Printing Keys ....")
 	for i in form.keys():
+		print(i)
 		response_dict[i] = form[i]
 		if i == 'CHECKSUMHASH':
 			checksum = form[i]
-	booking_id = response_dict["ORDERID"]
+	checksum = response_dict["CHECKSUMHASH"]
+	orderid = response_dict["ORDERID"]
+	orderid = orderid.split("_")
+	booking_id = int(orderid[1])
 	b = Booking.objects.filter(pk=booking_id)
-	verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+	global CHECKSUMVERIFY
+	verify = PaytmChecksum.verifySignature(response_dict, MERCHANT_KEY, CHECKSUMVERIFY)
 	if verify:
 		if response_dict['RESPCODE'] == '01':
 			print('order successful')
@@ -593,4 +657,4 @@ def payment(request):
 		else:
 			print('order was not successful because' + response_dict['RESPMSG'])
 			b.status = False
-	return render(request, 'General/Paymentstatus.html', {'response': response_dict})
+	return render(request, 'General/paymentstatus.html', {'response': response_dict})

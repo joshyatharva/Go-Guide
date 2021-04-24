@@ -250,29 +250,31 @@
         </div>
       </div>
     </nav>
+    {% if dates %}
     <div class="row" style="margin-top: 200px; padding: 0px 200px">
       <div class="col">
-        <h1>Location : _________</h1>
+        <h1>Confirm Payment</h1>
       </div>
     </div>
     <div class="row" style="margin-top: 0px; padding: 0px 200px">
       <div class="col">
-        <p>City : __________</p>
-        <p>State : __________</p>
-        <p>Country : _________</p>
-        <p>charge : _________</p>
+        <p>City : {{ location.city }}</p>
+        <p>State : {{ location.state }}</p>
+        <p>Country : {{ location.country }}</p>
+        <p>Charges : {{ guide.charges }}</p>
       </div>
     </div>
     <div class="row" style="margin-top: 0px; padding: 0px 200px">
       <div class="col">
-        <form>
+        <form action="{% url 'checkout' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="guide_id" value="{{ guide.guide_id }}">
+          <input type="hidden" name="location_id" value="{{ location.location_id }}">
           <div>
-            <select class="form-control" name="sort">
-              <option value="2" {{ All }}>All</option>
-              <option value="p0" {{ p0 }}>Price: Low to High</option>
-              <option value="p1" {{ p1 }}>Price: High to Low</option>
-              <option value="r0" {{ r0 }}>Reviews:Low to High</option>
-              <option value="r1" {{ r1 }}>Reviews:High to Low</option>
+            <select class="form-control" name="date" required>
+              {% for date in dates %}
+              <option value="{{ date.1 }}">{{ date.0 }}&nbsp;:&nbsp;{{ date.1 }}</option>
+              {% endfor %}
             </select>
           </div>
           <button
@@ -280,11 +282,18 @@
             type="submit"
             style="margin-top: 10px"
           >
-            SUBMIT
+            Confirm
           </button>
         </form>
       </div>
     </div>
+    {% else %}
+    <div class="row" style="margin-top: 200px; padding: 0px 200px">
+      <div class="col">
+        <h1>Ugh! {{ guide.user_details.first_name }}&nbsp;{{ guide.user_details.last_name }} is Unavailable ;(</h1>
+      </div>
+    </div>
+    {% endif %}
     <footer
       class="page-footer"
       style="

@@ -7,6 +7,8 @@
 <body>
 <h1>Redirecting you to the merchant....</h1>
 <h1>Please do not refresh your page....</h1>
+<!-- SO => https://securegw-stage.paytm.in -->
+<!-- DEFAULT => https://securegw-stage.paytm.in/theia/processTransaction -->
 <form action="https://securegw-stage.paytm.in/theia/processTransaction" method="post" name="paytm">
     {% for key, value in param_dict.items %}
     <input type="hidden" name="{{key}}" value="{{value}}">

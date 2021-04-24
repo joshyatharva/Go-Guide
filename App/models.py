@@ -194,4 +194,5 @@ class Booking(models.Model):
 	location = models.ForeignKey(Location, on_delete=models.CASCADE)
 	date = models.DateField(auto_now=True)
 	status = models.BooleanField(default=False)
+	dttm = models.DateTimeField(null=True)
 	# payment success : => status = True
