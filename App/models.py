@@ -200,3 +200,14 @@ class AccountVerification(models.Model):
 	av_id = models.AutoField(primary_key=True)
 	token = models.CharField(max_length=50)
 	user_id = models.IntegerField()
+
+class Orders(models.Model):
+	order_id = models.AutoField(primary_key=True)
+	amount = models.PositiveIntegerField(default=0)
+	name = models.CharField(max_length=100)
+	email = models.EmailField()
+	city = models.CharField(max_length=50)
+	state = models.CharField(max_length=50)
+	country = models.CharField(max_length=50)
+	phone = models.CharField(max_length=17, blank=True) 
+

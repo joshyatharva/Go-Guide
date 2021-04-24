@@ -397,6 +397,16 @@ def book_guide(request):
 		context["guides"] = False
 	return render(request, "General/bookguide.html", context)
 
+@require_POST
+@login_required(login_url='login')
+@user_passes_test(is_tourist)
+def book(request):
+	gd_id = request.POST.get('guide_id')
+	guide = Guide.objects.filter(pk=gd_id).first()
+	if guide is None:
+		raise Http404("<h1>Page Not Found</h1>")
+	else:
+		return HttpResponse("<h1>Yet To Be Processed</h1>")
 # def checkout(request):
 # 	if request.method == "POST":
 # 		x = request.POST

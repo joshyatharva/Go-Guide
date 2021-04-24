@@ -304,113 +304,42 @@
             </button>
           </div>
         </div>
+        {% if guides %}
         <div class="container" style="margin-top: 75px">
           <div class="heading">
             <h2>Guides Available</h2>
           </div>
           <div class="row">
+          	{% for guide in guides %}
             <div class="col-md-6 col-lg-4">
               <div class="card border-0">
                 <a href="#"
                   ><img
                     class="card-img-top scale-on-hover"
-                    src="assets/img/nature/image1.jpg"
+                    src="{{ guide.user_details.profile_pic.url }}"
                     alt="Card Image"
                 /></a>
                 <div class="card-body">
-                  <h6><a href="#">Guide name</a></h6>
+                  <h6><a href="#">{{ guide.user_details.first_name }}&nbsp;{{ guide.user.last_name }}</a></h6>
                   <p class="text-muted card-text">
-                    desc -----------==========================-==rating
+                    {{ guide.user_details.username }}
+                  </p>
+                  <p class="text-muted card-text">
+                    Rating : 0
                   </p>
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="card border-0">
-                <a href="#"
-                  ><img
-                    class="card-img-top scale-on-hover"
-                    src="assets/img/nature/image2.jpg"
-                    alt="Card Image"
-                /></a>
-                <div class="card-body">
-                  <h6><a href="#">Lorem Ipsum</a></h6>
-                  <p class="text-muted card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nunc quam urna.
-                  </p>
-                </div>
-              </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="card border-0">
-                <a href="#"
-                  ><img
-                    class="card-img-top scale-on-hover"
-                    src="assets/img/nature/image3.jpg"
-                    alt="Card Image"
-                /></a>
-                <div class="card-body">
-                  <h6><a href="#">Lorem Ipsum</a></h6>
-                  <p class="text-muted card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nunc quam urna.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="card border-0">
-                <a href="#"
-                  ><img
-                    class="card-img-top scale-on-hover"
-                    src="assets/img/nature/image4.jpg"
-                    alt="Card Image"
-                /></a>
-                <div class="card-body">
-                  <h6><a href="#">Lorem Ipsum</a></h6>
-                  <p class="text-muted card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nunc quam urna.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="card border-0">
-                <a href="#"
-                  ><img
-                    class="card-img-top scale-on-hover"
-                    src="assets/img/nature/image5.jpg"
-                    alt="Card Image"
-                /></a>
-                <div class="card-body">
-                  <h6><a href="#">Lorem Ipsum</a></h6>
-                  <p class="text-muted card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nunc quam urna.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-              <div class="card border-0">
-                <a href="#"
-                  ><img
-                    class="card-img-top scale-on-hover"
-                    src="assets/img/nature/image6.jpg"
-                    alt="Card Image"
-                /></a>
-                <div class="card-body">
-                  <h6><a href="#">Lorem Ipsum</a></h6>
-                  <p class="text-muted card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nunc quam urna.
-                  </p>
-                </div>
-              </div>
-            </div>
+            {% endfor %}
           </div>
+          {% else %}
+          <div class="container" style="margin-top: 75px">
+      		<div class="heading">
+            	<h2>Ugh! No Guides Available ;(</h2>
+	         </div>
+	      </div>
+          {% endif %}
         </div>
       </section>
     </main>
@@ -530,3 +459,91 @@
     ></script>
   </body>
 </html>
+
+
+<!-- 
+<div class="col-md-6 col-lg-4">
+              <div class="card border-0">
+                <a href="#"
+                  ><img
+                    class="card-img-top scale-on-hover"
+                    src="assets/img/nature/image2.jpg"
+                    alt="Card Image"
+                /></a>
+                <div class="card-body">
+                  <h6><a href="#">Lorem Ipsum</a></h6>
+                  <p class="text-muted card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nunc quam urna.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0">
+                <a href="#"
+                  ><img
+                    class="card-img-top scale-on-hover"
+                    src="assets/img/nature/image3.jpg"
+                    alt="Card Image"
+                /></a>
+                <div class="card-body">
+                  <h6><a href="#">Lorem Ipsum</a></h6>
+                  <p class="text-muted card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nunc quam urna.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0">
+                <a href="#"
+                  ><img
+                    class="card-img-top scale-on-hover"
+                    src="assets/img/nature/image4.jpg"
+                    alt="Card Image"
+                /></a>
+                <div class="card-body">
+                  <h6><a href="#">Lorem Ipsum</a></h6>
+                  <p class="text-muted card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nunc quam urna.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0">
+                <a href="#"
+                  ><img
+                    class="card-img-top scale-on-hover"
+                    src="assets/img/nature/image5.jpg"
+                    alt="Card Image"
+                /></a>
+                <div class="card-body">
+                  <h6><a href="#">Lorem Ipsum</a></h6>
+                  <p class="text-muted card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nunc quam urna.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0">
+                <a href="#"
+                  ><img
+                    class="card-img-top scale-on-hover"
+                    src="assets/img/nature/image6.jpg"
+                    alt="Card Image"
+                /></a>
+                <div class="card-body">
+                  <h6><a href="#">Lorem Ipsum</a></h6>
+                  <p class="text-muted card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nunc quam urna.
+                  </p>
+                </div>
+              </div>
+ -->

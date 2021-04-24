@@ -23,6 +23,7 @@ urlpatterns = [
 	path('read/blogs', views.read_blogs, name='read-blogs'),
 	path('guide/<str:username>', views.guide_profile, name='guide-profile'),
 	path('book/guide', views.book_guide, name='book-guide'),
+	path('book', views.book, name='book')
 	# path('checkout/', views.checkout, name='Checkout'),
 	# path('payment/', views.payment, name='Payment')
 ]

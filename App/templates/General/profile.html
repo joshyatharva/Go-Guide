@@ -275,8 +275,8 @@
               src="{{ guide.user_details.profile_pic.url }}"
             />
             <h3 class="profile-name" style="background: var(--teal)">
-              {{ guide.user_details.first_name }}&nbsp;{{
-              guide.user_details.last_name }}
+              {{ guide.user_details.first_name }}&nbsp;
+              {{ guide.user_details.last_name }}
             </h3>
             <h3
               class="profile-name"
@@ -303,6 +303,9 @@
                 class="col text-center align-items-center align-content-center align-self-center"
                 style="text-align: center"
               >
+                <form action="{% url 'book' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="guide_id" value={{ guide.guide_id }}>
                 <button
                   class="btn btn-primary btn-block text-center d-inline-flex"
                   type="submit"
@@ -322,8 +325,9 @@
                     padding-top: 5px;
                   "
                 >
-                  BOOK
+                  Book
                 </button>
+              </form>
               </div>
             </div>
             <p class="profile-bio">
