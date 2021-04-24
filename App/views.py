@@ -13,7 +13,7 @@ import string
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from .Paytm import Checksum
-MERCHANT_KEY = 'i3fvlO'
+MERCHANT_KEY = ''
 
 WEBSITE = 'http://127.0.0.1:8000'
 
@@ -551,7 +551,7 @@ def checkout(request):
 		amount = guide.charges
 		customer_id = tourist.tourist_id
 		param_dict = {
-			'MID':'8096771',
+			'MID':'',
 			'ORDER_ID':order_id,
 			'TXN_AMOUNT':amount,
 			'CUST_ID':customer_id,
