@@ -376,7 +376,8 @@
         {% for review in reviews %}
         <div class="row" style="margin:10px 300px;">
             <div class="col">
-                <b>{{ review.reviewer.user_details.first_name }}&nbsp;{{ review.reviewer.user_details.last_name }}&nbsp;&nbsp;{{ reveiw.rating }}&nbsp;&#9733;</b>
+                <b>{{ review.reviewer.user_details.first_name }}&nbsp;{{ review.reviewer.user_details.last_name }}&nbsp;&nbsp;&nbsp;{% for i in "x"|rjust:review.rating %}&#9733;
+{% endfor %}</b>
             </div>
         </div>
         {% if review.description %}
@@ -389,7 +390,7 @@
         {% endfor %}
         
     </div>
-    {% if user.is_authenticated and user.user_type  %}
+    {% if user.is_authenticated and user.user_type and allowed %}
     <div class="container">
       <div class="row">
             <div class="col" style="text-align: left;margin-top: 100px;margin-right:200px;margin-left:200px;">

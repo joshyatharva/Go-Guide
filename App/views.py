@@ -128,13 +128,13 @@ def log_in(request):
 	if request.user.is_authenticated:
 		return HttpResponseRedirect(reverse('index'))
 	if request.method == "POST":
-		email = request.POST["email"]
+		email = request.POST.get("email")
 		username = ''
 		password = ''
 		try :
 			usr = User.objects.filter(email=email).first()
 			username = usr.username
-			password = request.POST["password"]
+			password = request.POST.get("password")
 			user = authenticate(request, username=username, password=password)
 		except Exception as e:
 			user = None
@@ -142,7 +142,7 @@ def log_in(request):
 		if user is not None:
 			login(request, user)
 			if not user.account_verified:
-				return render(request, 'General/accountnotverified.html')
+				return HttpResponseRedirect(reverse('not-verified'))
 			if user.user_type: # True => Tourist
 				return HttpResponseRedirect(reverse('home-tourist'))
 
@@ -247,13 +247,14 @@ def verify_account(request, a, token):
 		
 @login_required(login_url='login')
 def not_verified(request):
-	if (not request.user.is_authenticated) or user.account_verified:
+	user = request.user
+	if (not user.is_authenticated) or user.account_verified:
 		return HttpResponseRedirect(reverse('index'))
 	else:
 		if not user.user_type:
 			messages.info(request, "Please Check Your Email and Verify") 
 			return HttpResponseRedirect(reverse('create-profile'))
-		return render(request, 'accountnotverified.html')
+		return render(request, 'General/accountnotverified.html')
 
 
 def add_destination(request):
@@ -381,9 +382,21 @@ def guide_profile(request, username):
 		raise Http404("Not Found!")
 	guide = user.guide
 	reviews = guide.review_set.all()
+	allowed = True
+	if not request.user.user_type: # guide cannot post review
+		allowed = False
+	else :
+		print("\n\nTourist IT IS\n")
+		rvws = request.user.tourist.review_set
+		found = rvws.filter(reviewer=request.user.tourist)
+		if found:
+			allowed = False
+		else:
+			allowed = True
 	context = {
 		"guide" : guide,
 		"reviews" : reviews,
+		"allowed" : allowed,
 	}
 	print(f"\n\n{guide.user_details.profile_pic.path}\n{guide.user_details.profile_pic.url}")
 	return render(request, "General/profile.html", context)

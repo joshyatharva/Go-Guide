@@ -329,7 +329,7 @@
                   <p class="text-muted card-text">
                     {{ guide.user_details.username }}<br/>
                     Charges : {{ guide.charges }}<br/>
-                    Rating : {{ guide.rating }}<br/>
+                    Rating : {{ guide.rating | stringformat:".4s" }}<br/>
                   </p>
                   <p class="text-muted card-text">
                     
