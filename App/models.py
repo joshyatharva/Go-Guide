@@ -188,10 +188,6 @@ class AccountVerification(models.Model):
 class Orders(models.Model):
 	order_id = models.AutoField(primary_key=True)
 	amount = models.PositiveIntegerField(default=0)
-	name = models.CharField(max_length=100)
-	email = models.EmailField()
-	city = models.CharField(max_length=50)
-	state = models.CharField(max_length=50)
-	country = models.CharField(max_length=50)
-	phone = models.CharField(max_length=17, blank=True) 
-
+	tourist = models.ForeignKey(Tourist, on_delete=models.CASCADE)
+	guide = models.ForeignKey(Guide, on_delete=models.CASCADE)
+	location = models.ForeignKey(Location, on_delete=models.CASCADE)

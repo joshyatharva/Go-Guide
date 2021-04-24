@@ -533,25 +533,35 @@ def review_guide(request):
 	guide.save()
 
 	return redirect('guide-profile', username=guide.user_details.username)
-	pass
-# def checkout(request):
-# 	if request.method == "POST":
-# 		x = request.POST
-#
-# 	 	param_dict = {
-#              'MID':'',   #Merchant Id here
-#              'ORDER_ID':'',     #order ID here
-#              'TXN_AMOUNT':'1',        #payment amount here
-#              'CUST_ID':'',			  #customer id or email id here
-#              'INDUSTRY_TYPE_ID':'Retail',
-#              'WEBSITE':'WEBSTAGING',
-#              'CHANNEL_ID':'WEB',
-#   	         'CALLBACK_URL':'http://localhost:8000/payment/',
-#  		}
-# 		param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
-# 		return render(request, 'General/payment.html', {'param_dict': param_dict})
-#
-# 	return render(request, 'General/checkout.html')
+
+@login_required(login_url='login')
+@user_passes_test(is_tourist)
+def checkout(request):
+	if not user.account_verified:
+		return HttpResponseRedirect(reverse('not-verified'))
+	if request.method == "POST":
+		tourist = request.user.tourist
+		gid = request.POST.get('guide_id')
+		lid = request.POST.get('location_id')
+		guide = Guide.objects.filter(pk=gid).first()
+		lctn = Location.objects.filter(pk=lid).first()
+		o = Order(amount=guide.charges, tourist=tourist, guide=guide, location=lctn)
+		o.save()
+		order_id = o.order_id
+		customer_id = tourist.tourist_id
+		param_dict = {
+			'MID':'',   #Merchant Id here
+			'ORDER_ID':'',     #order ID here
+			'TXN_AMOUNT':'1',        #payment amount here
+			'CUST_ID':'',			  #customer id or email id here
+			'INDUSTRY_TYPE_ID':'Retail',
+			'WEBSITE':'WEBSTAGING',
+			'CHANNEL_ID':'WEB',
+			'CALLBACK_URL':'http://localhost:8000/payment/',
+		}
+		param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+		return render(request, 'General/payment.html', {'param_dict': param_dict})
+	return render(request, 'General/checkout.html')
 #
 # @csrf_exempt
 # def payment(request):
