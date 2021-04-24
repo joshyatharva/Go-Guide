@@ -407,6 +407,14 @@ def book(request):
 		raise Http404("<h1>Page Not Found</h1>")
 	else:
 		return HttpResponse("<h1>Yet To Be Processed</h1>")
+
+@require_POST
+@login_required(login_url='login')
+@user_passes_test(is_tourist)
+def guide_filter(request):
+	return HttpResponse("<h1>Filer Accepted</h1>")
+	pass
+
 # def checkout(request):
 # 	if request.method == "POST":
 # 		x = request.POST
