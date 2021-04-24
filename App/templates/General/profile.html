@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
     />
-    <title>HME</title>
+    <title>GoGuide</title>
     <link
       rel="stylesheet"
       href="{% static 'App/assets/bootstrap/css/bootstrap.min.css' %}"
@@ -286,7 +286,7 @@
                 font-family: Lora, serif;
               "
             >
-              Rating - 0
+              Rating - {{ guide.rating | stringformat:".4s" }}
             </h3>
             <h3
               class="profile-name"
@@ -305,7 +305,8 @@
               >
                 <form action="{% url 'book' %}" method="POST">
                   {% csrf_token %}
-                  <input type="hidden" name="guide_id" value={{ guide.guide_id }}>
+                  <input type="hidden" name="guide_id" 
+                  value={{ guide.guide_id }}>
                 <button
                   class="btn btn-primary btn-block text-center d-inline-flex"
                   type="submit"
@@ -367,44 +368,51 @@
         </div>
       </div>
     </div>
+    {% if reviews %}
     <div class="col" style="text-align: left;margin-top: 10px;margin-bottom: 20px;margin-right:300px;margin-left:300px;">
             <h1 class="text-center d-inline-block align-items-center align-content-center align-self-center" style="width: 228px;height: 40px;font-size: 40px;color: var(--indigo);margin-top: 50px;margin-bottom: 10px;text-align: left;">Reviews</h1>
         </div>
+    {% endif %}
+        {% for review in reviews %}
         <div class="row" style="margin:10px 300px;">
             <div class="col">
-                <p>Title</p>
+                <b>{{ review.reviewer.user_details.first_name }}&nbsp;{{ review.reviewer.user_details.last_name }}&nbsp;&nbsp;{{ reveiw.rating }}&nbsp;&#9733;</b>
             </div>
         </div>
+        {% if review.description %}
         <div class="row" style="margin:10px 300px;">
             <div class="col">
-                <p>Description</p>
+                <p>{{ review.description }}</p>
             </div>
         </div>
-        <div class="row" style="margin:10px 300px;">
-            <div class="col">
-                <p>Reviewer</p>
-                <p>Rating</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col" style="text-align: left;margin-top: 100px;margin-right:200px;margin-left:200px;">
-                <h1 class="text-center d-inline-block align-items-center align-content-center align-self-center" style="width: 500px;height: 40px;font-size: 40px;color: var(--indigo);margin-top: 50px;margin-bottom: 10px;text-align: left;">Submit review</h1>
-            </div>
-        </div>
+        {% endif %}
+        {% endfor %}
+        
     </div>
+    {% if user.is_authenticated and user.user_type  %}
     <div class="container">
-        <form style="margin-bottom: 200px;"><input class="form-control" type="text" name="title" placeholder="title"><input class="form-control" type="text" name="reviewer" placeholder="reviewer"><input class="form-control" type="text" name="description" placeholder="description">
-          <select class="form-control form-control" name="Rating"
-                      style="margin-top: 10px;margin-right: 0px;margin-bottom: 10px;margin-left: 0px; width:200px;">
-                      <option value="1" selected="">&#9734;</option>
-                      <option value="2">&#9734;&#9734;</option>
-                      <option value="3">&#9734;&#9734;&#9734;</option>
-                      <option value="4">&#9734;&#9734;&#9734;&#9734;</option>
-                      <option value="5">&#9734;&#9734;&#9734;&#9734;&#9734;</option>
+      <div class="row">
+            <div class="col" style="text-align: left;margin-top: 100px;margin-right:200px;margin-left:200px;">
+                <h1 class="text-center d-inline-block align-items-center align-content-center align-self-center" style="width: 500px;height: 40px;font-size: 40px;color: var(--indigo);margin-top: 50px;margin-bottom: 10px;text-align: left;">Submit Review</h1>
+            </div>
+        </div>
+        <form style="margin-bottom: 200px;" action="{% url 'review-guide' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="guide_id" value={{ guide.guide_id }}>
+          <input class="form-control" type="text" name="description" placeholder="Review">
+          <select class="form-control form-control" name="rating"
+                      style="margin-top: 10px;margin-right: 0px;margin-bottom: 10px;margin-left: 0px; width:200px;" required>
+                      <option value=1 selected="">&#9734;</option>
+                      <option value=2>&#9734;&#9734;</option>
+                      <option value=3>&#9734;&#9734;&#9734;</option>
+                      <option value=4>&#9734;&#9734;&#9734;&#9734;</option>
+                      <option value=5>&#9734;&#9734;&#9734;&#9734;&#9734;</option>
             </select>
-            <button class="btn btn-success text-center align-content-center" type="submit" style="text-align: center;border-radius: 30px;margin: 10px;background: rgb(6,152,133);">Submit</button>
+            <input type="hidden" name="guide" value="{{ guide.guide_id }}">
+            <button class="btn btn-success text-center align-content-center" type="submit" style="text-align: center;border-radius: 30px;margin: 10px;background: rgb(6,152,133);">Post</button>
         </form>
     </div>
+    {% endif %}
     <footer
       class="page-footer"
       style="

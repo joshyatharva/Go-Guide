@@ -25,6 +25,7 @@ urlpatterns = [
 	path('book/guide', views.book_guide, name='book-guide'),
 	path('book', views.book, name='book'),
 	path('filter', views.guide_filter, name='guide-filter'),
+	path('review/guide', views.review_guide, name='review-guide'),
 	# path('checkout/', views.checkout, name='Checkout'),
 	# path('payment/', views.payment, name='Payment')
 ]

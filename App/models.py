@@ -125,7 +125,7 @@ class Guide(models.Model):
 	days_available = models.ForeignKey(Days, on_delete=models.CASCADE, blank=True, null=True)
 	available = models.BooleanField(default=False)
 	location = models.ManyToManyField(Location)
-	rating = models.FloatField(default=0)
+	rating = models.FloatField(default=0.0)
 
 class Blog(models.Model):
 	blog_id = models.AutoField(primary_key=True)
@@ -167,36 +167,18 @@ class Destination(models.Model):
 		location = r"{BASE_DIR}/media/".format(BASE_DIR=BASE_DIR)
 		os.rename(r"{location}/{filename}".format(location=location,filename=filename), r"{location}/{new_name}".format(location=location, new_name=new_name))
 		self.destination_image.name = new_name
-		# print("Path = ", self.destination_image.path)
-		# print("url = ", self.destination_image.url)
-		# print("filename = ", self.destination_image.name)
-		# super(Book, self).save(*args, **kwargs)
-		# super(Destination, self).save(*args, **kwargs)
-		# ####
-		# filename = self.destination_image.name
-		# ext = filename.split('.')[-1]
-
-		# old_path = f'{BASE_DIR}/media/{filename}'
-		# new_path = destination_image_upload(self, self.destination_image.name)
-		# print(f"OLD PATH: {old_path}\nNEW PATH: {new_path}")
-		# os.rename(old_path, new_path)
-		# self.destination_image.path = new_path
-		# self.destination_image.name = f"media/Destination/{self.destination_id}.{ext}"
-		# print(self.destination_image.name)
-		# print(f"OLD PATH: {old_path}\nNEW PATH: {new_path}")
-
 		super(Destination, self).save(*args, **kwargs)
 
 
 class Review(models.Model):
 	review_id = models.AutoField(primary_key=True)
-	title = models.CharField(max_length=50)
-	description = models.CharField(max_length=200)
-	reviewer = models.OneToOneField(Tourist, on_delete=models.CASCADE)
+	rating = models.PositiveIntegerField()
+	# title = models.CharField(max_length=50, null=True)
+	description = models.CharField(max_length=200, null=True, blank=True)
+	reviewer = models.ForeignKey(Tourist, on_delete=models.CASCADE)
 	# django doesn't provide OneToManyField so we have to use ForeignKey which is
 	# equivalent to Many To One Relationship
 	guide_review = models.ForeignKey(Guide, on_delete=models.CASCADE)
-	blog_review = models.ForeignKey(Blog, on_delete=models.CASCADE)
 
 class AccountVerification(models.Model):
 	av_id = models.AutoField(primary_key=True)

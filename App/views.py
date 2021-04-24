@@ -380,8 +380,10 @@ def guide_profile(request, username):
 	if user is None:
 		raise Http404("Not Found!")
 	guide = user.guide
+	reviews = guide.review_set.all()
 	context = {
 		"guide" : guide,
+		"reviews" : reviews,
 	}
 	print(f"\n\n{guide.user_details.profile_pic.path}\n{guide.user_details.profile_pic.url}")
 	return render(request, "General/profile.html", context)
@@ -488,6 +490,28 @@ def guide_filter(request):
 	return render(request, 'General/bookguide.html', context)
 	pass
 
+@require_POST
+@login_required(login_url='login')
+@user_passes_test(is_tourist)
+def review_guide(request):
+	# title = request.POST.get('title')
+	description = request.POST.get('description')
+	rating = int(request.POST.get('rating'))
+	guide_id = request.POST.get('guide_id')
+	print(description, " ", rating, " ", guide_id)
+	guide = Guide.objects.filter(pk=guide_id).first()
+	if guide is None:
+		raise Http404("<h1>Page Not found</h1>")
+	review = Review(description=description, rating=rating, guide_review=guide, reviewer=request.user.tourist)
+	review.save()
+	query_set = guide.review_set.all()
+	n = query_set.count() # this includes the current review
+	print("\n\nN = ", n)
+	guide.rating = (guide.rating * (n-1) + rating)/n;
+	guide.save()
+
+	return redirect('guide-profile', username=guide.user_details.username)
+	pass
 # def checkout(request):
 # 	if request.method == "POST":
 # 		x = request.POST

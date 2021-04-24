@@ -325,7 +325,7 @@
                     alt="Card Image"
                 /></a>
                 <div class="card-body">
-                  <h6><a href="#">{{ guide.user_details.first_name }}&nbsp;{{ guide.user_details.last_name }}</a></h6>
+                  <h6><a href="{% url 'guide-profile' guide.user_details.username %}">{{ guide.user_details.first_name }}&nbsp;{{ guide.user_details.last_name }}</a></h6>
                   <p class="text-muted card-text">
                     {{ guide.user_details.username }}<br/>
                     Charges : {{ guide.charges }}<br/>
