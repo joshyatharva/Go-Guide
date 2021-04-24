@@ -548,12 +548,13 @@ def checkout(request):
 		o = Order(amount=guide.charges, tourist=tourist, guide=guide, location=lctn)
 		o.save()
 		order_id = o.order_id
+		amount = guide.charges
 		customer_id = tourist.tourist_id
 		param_dict = {
-			'MID':'',   #Merchant Id here
-			'ORDER_ID':'',     #order ID here
-			'TXN_AMOUNT':'1',        #payment amount here
-			'CUST_ID':'',			  #customer id or email id here
+			'MID':'',
+			'ORDER_ID':order_id,
+			'TXN_AMOUNT':amount,
+			'CUST_ID':customer_id,
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'WEBSTAGING',
 			'CHANNEL_ID':'WEB',
@@ -562,20 +563,20 @@ def checkout(request):
 		param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
 		return render(request, 'General/payment.html', {'param_dict': param_dict})
 	return render(request, 'General/checkout.html')
-#
-# @csrf_exempt
-# def payment(request):
-# 	form = request.POST
-# 	response_dict = {}
-# 	for i in form.keys():
-# 		response_dict[i] = form[i]
-# 		if i == 'CHECKSUMHASH':
-# 			checksum = form[i]
-#
-# 	verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
-# 	if verify:
-# 		if response_dict['RESPCODE'] == '01':
-# 			print('order successful')
-# 		else:
-# 			print('order was not successful because' + response_dict['RESPMSG'])
-# 	return render(request, 'General/Paymentstatus.html', {'response': response_dict})
+
+@csrf_exempt
+def payment(request):
+	form = request.POST
+	response_dict = {}
+	for i in form.keys():
+		response_dict[i] = form[i]
+		if i == 'CHECKSUMHASH':
+			checksum = form[i]
+
+	verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+	if verify:
+		if response_dict['RESPCODE'] == '01':
+			print('order successful')
+		else:
+			print('order was not successful because' + response_dict['RESPMSG'])
+	return render(request, 'General/Paymentstatus.html', {'response': response_dict})
