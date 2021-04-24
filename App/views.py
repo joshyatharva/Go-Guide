@@ -13,7 +13,7 @@ import string
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from .Paytm import Checksum
-MERCHANT_KEY = '#add here'
+MERCHANT_KEY = ''
 
 WEBSITE = 'http://127.0.0.1:8000'
 
