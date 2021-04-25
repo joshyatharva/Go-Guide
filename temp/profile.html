@@ -1,5 +1,4 @@
-{% load static %} 
-{% load widget_tweaks %}
+{% load static %} {% load widget_tweaks %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -181,7 +180,14 @@
     />
   </head>
 
-  <body style="margin-top: 150px; font-size: 20px">
+  <body
+    style="
+      margin: 100px;
+      margin-left: 0px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+    "
+  >
     <nav
       class="navbar navbar-dark navbar-expand-lg fixed-top bg-white float-right portfolio-navbar gradient"
       style="height: 85px"
@@ -224,9 +230,10 @@
               >
             </li>
             <li class="nav-item" style="padding-right: 0px">
-              <a class="nav-link" href="#Contact" style="font-weight: normal"
-                >Contact us</a
-              >
+              <a class="nav-link" href="#Contact">Contact us</a>
+            </li>
+            <li class="nav-item" style="padding-right: 0px">
+              <a class="nav-link" href="{% url 'logout' %}">logout</a>
             </li>
           </ul>
           <a
@@ -239,117 +246,179 @@
               padding: 7.25px;
             "
             >Help</a
-          ><a
-            href="{% url 'bookings' %}"
-            style="
-              font-family: Lato, sans-serif;
-              color: var(--light);
-              filter: brightness(99%) saturate(73%);
-              font-size: 16px;
-              padding: 7.25px;
-            "
-            >Bookings</a
-          ><a
-            href="{% url 'logout' %}"
-            style="
-              font-family: Lato, sans-serif;
-              color: var(--light);
-              filter: brightness(99%) saturate(73%);
-              font-size: 16px;
-              padding: 7.25px;
-            "
-            >Log out</a
           >
         </div>
       </div>
     </nav>
-    <div class="list-group"></div>
-    <div class="row">
-      <div class="col">
-        <h2
-          class="text-center"
+    <div class="container">
+      <div class="row" style="box-shadow: 0px 0px">
+        <div
+          class="col-md-12 text-center align-content-center align-self-center"
           style="
-            color: var(--cyan);
-            font-family: 'Aref Ruqaa', serif;
-            font-weight: bold;
-            margin-bottom: 40px;
-            font-size: 41.6px;
+            margin-bottom: 50px;
+            margin-top: 100px;
+            padding-right: 200px;
+            padding-left: 200px;
           "
         >
-         {% if bookings %} Bookings {% endif %}
-        </h2>
-      </div>
-    </div>
-    {% for booking in bookings %}
-    <div class="row" style="justify-content: center;">
-       <div class="card bg-dark text-white mb-" style="width: 50rem; align-self: center;">
-          <div class="card-header">Booking ID #{{ booking.booking_id }}</div>
-          <div class="card-body">
-
-            <h5 class="card-title">
-              {% if user.user_type %}
-              {{ booking.guide.user_details.first_name }}&nbsp;{{ booking.guide.user_details.last_name }}
-              {% else %}
-              {{ booking.tourist.user_details.first_name }}&nbsp;{{ booking.tourist.user_details.last_name }}
-              {% endif %}
-            </h5>
-            <p class="card-text">
-              <b>Date :&nbsp;</b>{{ booking.date }}<br/>
-              <b>City :&nbsp;</b>{{ booking.location.city }}<br/>
-              <b>State :&nbsp;</b>{{ booking.location.state }}<br/>
-              <b>Country :&nbsp;</b>{{ booking.location.country }}<br/>
-              <b>Amount :&nbsp;</b>{{ booking.guide.charges }}<br/>
-            </p>
-          </div>
-        </div>   
-    </div>
-    {% endfor %}
-    {% if not bookings %}
-    <div class="row">
-      <div class="col">
-        <h2
-          class="text-center"
-          style="
-            color: var(--cyan);
-            font-family: 'Aref Ruqaa', serif;
-            font-weight: bold;
-            margin-bottom: 40px;
-            font-size: 41.6px;
-          "
-        >
-          No Bookings so far!
-        </h2>
-      </div>
-    </div>
-    {% endif %}
-    <!-- <div class="row">
-      <div class="col" style="margin-bottom: 300px">
-        <div class="list-group">
-          <a
-            class="list-group-item list-group-item-action flex-column align-items-start"
-            href="#"
-            style="margin-right: 200px"
+          <div
+            class="align-items-center align-content-center align-self-center profile-card"
+            style="
+              height: 675px;
+              width: 700px;
+              text-align: center;
+              background: var(--white);
+              border-style: none;
+              box-shadow: 0px 0px 14px;
+            "
           >
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Location - ___________</h5>
-              <h5 class="mb-1">Guide - ___________</h5>
-              <h5 class="mb-1">Tourist - ___________</h5>
-              <h5 class="mb-1">Order ID - ___________</h5>
-              <h5 class="mb-1">Charges - ___________</h5>
+            <div class="profile-back" style="background: var(--cyan)"></div>
+            <img
+              class="rounded-circle profile-pic"
+              src="{{ guide.user_details.profile_pic.url }}"
+            />
+            <h3 class="profile-name" style="background: var(--teal)">
+              {{ guide.user_details.first_name }}&nbsp;
+              {{ guide.user_details.last_name }}
+            </h3>
+            <h3
+              class="profile-name"
+              style="
+                background: var(--white);
+                color: var(--gray-dark);
+                font-family: Lora, serif;
+              "
+            >
+              Rating - {{ guide.rating | stringformat:".4s" }}
+            </h3>
+            <h3
+              class="profile-name"
+              style="
+                background: var(--white);
+                color: var(--gray-dark);
+                font-family: Roboto, sans-serif;
+              "
+            >
+              Charges - {{ guide.charges }} INR
+            </h3>
+            <div class="row">
+              <div
+                class="col text-center align-items-center align-content-center align-self-center"
+                style="text-align: center"
+              >
+                <form action="{% url 'book' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="guide_id" 
+                  value={{ guide.guide_id }}>
+                <button
+                  class="btn btn-primary btn-block text-center d-inline-flex"
+                  type="submit"
+                  style="
+                    width: 80px;
+                    height: 40px;
+                    border-radius: 26px;
+                    border-top-right-radius: 0px;
+                    border-bottom-left-radius: 0px;
+                    margin-left: 0px;
+                    padding: 10px;
+                    font-size: 12.5px;
+                    color: var(--white);
+                    background: var(--cyan);
+                    text-align: center;
+                    padding-left: 18px;
+                    padding-top: 5px;
+                  "
+                >
+                  Book
+                </button>
+              </form>
+              </div>
             </div>
-        </a
-          >
+            <p class="profile-bio">
+<<<<<<< HEAD
+              {{ guide.bio }}
+=======
+             description tak
+>>>>>>> 5113d4358304f3bf20136efae465357a57be6774
+            </p>
+            <ul class="social-list">
+              <li>
+                <i
+                  class="fa fa-facebook-official"
+                  style="background: var(--blue)"
+                ></i>
+              </li>
+              <li>
+                <i
+                  class="fa fa-twitter-square"
+                  style="background: var(--blue)"
+                ></i>
+              </li>
+              <li>
+                <i
+                  class="fa fa-linkedin-square"
+                  style="background: var(--blue)"
+                ></i>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div> -->
+    </div>
+    {% if reviews %}
+    <div class="col" style="text-align: left;margin-top: 10px;margin-bottom: 20px;margin-right:300px;margin-left:300px;">
+            <h1 class="text-center d-inline-block align-items-center align-content-center align-self-center" style="width: 228px;height: 40px;font-size: 40px;color: var(--indigo);margin-top: 50px;margin-bottom: 10px;text-align: left;">Reviews</h1>
+        </div>
+    {% endif %}
+        {% for review in reviews %}
+        <div class="row" style="margin:10px 300px;">
+            <div class="col">
+                <b>{{ review.reviewer.user_details.first_name }}&nbsp;{{ review.reviewer.user_details.last_name }}&nbsp;&nbsp;&nbsp;{% for i in "x"|rjust:review.rating %}&#9733;
+{% endfor %}</b>
+            </div>
+        </div>
+        {% if review.description %}
+        <div class="row" style="margin:10px 300px;">
+            <div class="col">
+                <p>{{ review.description }}</p>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        
+    </div>
+    {% if user.is_authenticated and user.user_type and allowed %}
+    <div class="container">
+      <div class="row">
+            <div class="col" style="text-align: left;margin-top: 100px;margin-right:200px;margin-left:200px;">
+                <h1 class="text-center d-inline-block align-items-center align-content-center align-self-center" style="width: 500px;height: 40px;font-size: 40px;color: var(--indigo);margin-top: 50px;margin-bottom: 10px;text-align: left;">Submit Review</h1>
+            </div>
+        </div>
+        <form style="margin-bottom: 200px;" action="{% url 'review-guide' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="guide_id" value={{ guide.guide_id }}>
+          <input class="form-control" type="text" name="description" placeholder="Review">
+          <select class="form-control form-control" name="rating"
+                      style="margin-top: 10px;margin-right: 0px;margin-bottom: 10px;margin-left: 0px; width:200px;" required>
+                      <option value=1 selected="">&#9734;</option>
+                      <option value=2>&#9734;&#9734;</option>
+                      <option value=3>&#9734;&#9734;&#9734;</option>
+                      <option value=4>&#9734;&#9734;&#9734;&#9734;</option>
+                      <option value=5>&#9734;&#9734;&#9734;&#9734;&#9734;</option>
+            </select>
+            <input type="hidden" name="guide" value="{{ guide.guide_id }}">
+            <button class="btn btn-success text-center align-content-center" type="submit" style="text-align: center;border-radius: 30px;margin: 10px;background: rgb(6,152,133);">Post</button>
+        </form>
+    </div>
+    {% endif %}
     <footer
       class="page-footer"
       style="
         color: rgb(41, 101, 162);
         background: linear-gradient(120deg, #7f70f5, #0ea0ff),
           rgb(193, 131, 242);
-        margin-top: 400px;
       "
+      id="Contact"
     >
       <div class="container">
         <div class="links"><a href="#Contact">Contact me</a></div>
