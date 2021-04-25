@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>CV - Brand</title>
+    <title>GoGuide</title>
     <link rel="stylesheet" href="{% static 'App/assets/bootstrap/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Actor">
@@ -52,8 +52,10 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'aboutus' %}" style="font-family: Lato, sans-serif;">About us</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'read-blogs' %}" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="">Contact us</a></li>
-                </ul><a href="{% url 'help' %}" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Help</a>
+                    <li class="nav-item"><a class="nav-link" href="#Contact">Contact us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'help' %}">Help</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">logout</a></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -86,11 +88,11 @@
             {% endfor %}
         </section>
     </main>
-    <footer class="page-footer" style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);">
+    <footer class="page-footer" style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);" id="Contact">
         <div class="container">
-            <div class="links"><a href="#">Contact us</a></div>
+            <div class="links"><a href="#Contact">Contact us</a></div>
         </div>
-        <div class="social-icons"><a href="#" style="background: var(--indigo);"><i class="icon ion-social-facebook"></i></a><a href="#" style="background: #51242f;color: var(--white);"><i class="icon ion-social-instagram-outline"></i></a><a href="#" style="background: var(--blue);"><i class="icon ion-social-twitter"></i></a></div>
+        <div class="social-icons"><a href="https://www.facebook.com/" style="background: var(--indigo);"><i class="icon ion-social-facebook"></i></a><a href="https://www.instagram.com/" style="background: #51242f;color: var(--white);"><i class="icon ion-social-instagram-outline"></i></a><a href="https://twitter.com/" style="background: var(--blue);"><i class="icon ion-social-twitter"></i></a></div>
     </footer>
     <script src="{% static 'App/assets/js/jquery.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'App/assets/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>

@@ -28,5 +28,6 @@ urlpatterns = [
 	path('review/guide', views.review_guide, name='review-guide'),
 	path('payment', views.payment, name='payment'),
 	path('checkout/', views.checkout, name='checkout'),
+	path('bookings', views.bookings, name='bookings'),
 	# path('payment/', views.payment, name='Payment'),
 ]

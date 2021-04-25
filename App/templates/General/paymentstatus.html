@@ -1,21 +1,12 @@
-{% block title%} Go Guide{% endblock %}
-{% block body %}
+{% block title%}<h1 style="text-align:center;color:#7f70f5;">Go Guide</h1>{% endblock %} {% block body %}
 <div class="container">
-    {{response}}
-    <div class="col my-4">
-
-        <h2>Payment status regarding your order Id {{response.ORDERID}}</h2>
-        {% if response.RESPCODE == '01' %}
-        ORDER SUCCESS
-        {% else %}
-        ORDER FAILURE
-        {% endif%}
-
-    </div>
-
+  {% comment %} {{response}} {% endcomment %}
+  <div class="col my-4" style="margin: 100px">
+    <h2 style="text-align:center;color:blue;" >Payment status regarding your order Id {{response.ORDERID}}</h2>
+    {% if response.RESPCODE == '01' %}<h2 style="text-align:center;color:green;"> ORDER SUCCESS </h2>{% else %}<h2 style="text-align:center;color:red;"> ORDER FAILURE </h2>{% endif %}
+    <a href="{% url 'index' %}"><button type="button" style="margin-top:20px;margin-right:300px; margin-left:300px;">Homepage</button></a>
+  </div>
 </div>
-{% endblock %}
-{% block js %}
-<script>
-</script>
+{% endblock %} {% block js %}
+<script></script>
 {% endblock %}

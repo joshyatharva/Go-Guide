@@ -65,6 +65,8 @@ def aboutus(request):
 def help(request):
 	return render(request, 'General/help.html')
 
+def bookings(request):
+	return render(request, 'General/bookings.html')
 
 def register(request):
 	if request.user.is_authenticated:

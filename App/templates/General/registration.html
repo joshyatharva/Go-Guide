@@ -48,7 +48,7 @@
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white float-right portfolio-navbar gradient"
         style="height: 85px;">
-        <div class="container"><a class="navbar-brand logo" href="#"
+        <div class="container"><a class="navbar-brand logo" href="{% url 'index' %}"
                 style="font-family: 'Aref Ruqaa', serif;font-size: 37px;">GoGuide</a><button data-toggle="collapse"
                 class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span
                     class="navbar-toggler-icon"></span></button>
@@ -56,10 +56,9 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'aboutus' %}"
                             style="font-family: Lato, sans-serif;">About us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'read-blogs' %}"
-                            style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="">Contact us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#Contact">Contact us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"
+                            style="font-family: Lato, sans-serif;">login</a></li>
                 </ul><a href="{% url 'help' %}"
                     style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Help</a>
             </div>
@@ -94,42 +93,21 @@
                 class="form-check-label" for="formCheck-1">I agree to the terms and coditions</label></div>
         <div class="form-group" style="padding: 30px;padding-right: 30px;padding-left: 307px;"><button
                 class="btn btn-primary btn-block" type="submit"
-                style="width: 90px;height: 35px;border-radius: 26px;border-top-right-radius: 0px;border-bottom-left-radius: 0px;margin-left: 0px;padding: 0px;font-size: 12.5px;color: var(--white);background: var(--cyan);">Sign
-                Up</button></div><a class="already" href="#">You already have an account? Login here.</a>
+                style="width: 90px;height: 40px;border-radius: 26px;border-top-right-radius: 0px;border-bottom-left-radius: 0px;margin-left: 0px;padding: 0px;font-size: 14px;color: var(--white);background: var(--cyan);">Sign
+                Up</button></div><a class="already" href="{% url 'login' %}" style=""><h6>You already have an account? Login here.<h6></a>
         </div>
         
         </form>
         </div>
     </section>
     <footer class="page-footer"
-        style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);">
+        style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);" id="Contact">
         <div class="container">
-            <div class="links"><a href="#">Contact me</a></div>
+            <div class="links"><a href="#Contact">Contact us</a></div>
         </div>
-        <div class="social-icons"><a href="#" style="background: var(--indigo);"><i
-                    class="icon ion-social-facebook"></i></a><a href="#"
-                style="background: #51242f;color: var(--white);"><i class="icon ion-social-instagram-outline"></i></a><a
-                href="#" style="background: var(--blue);"><i class="icon ion-social-twitter"></i></a></div>
+        <div class="social-icons"><a href="https://www.facebook.com/" style="background: var(--indigo);"><i class="icon ion-social-facebook"></i></a><a href="https://www.instagram.com/" style="background: #51242f;color: var(--white);"><i class="icon ion-social-instagram-outline"></i></a><a href="https://twitter.com/" style="background: var(--blue);"><i class="icon ion-social-twitter"></i></a></div>
     </footer>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white float-right portfolio-navbar gradient"
-        style="height: 85px;">
-        <div class="container"><a class="navbar-brand logo" href="{% url 'index' %}"
-                style="font-family: 'Aref Ruqaa', serif;font-size: 37px;">GoGuide</a><button data-toggle="collapse"
-                class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span
-                    class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="touristhome.html"
-                            style="font-family: Lato, sans-serif;">About us</a></li>
-                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="blogs.html"
-                            style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a>
-                    </li>
-                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="">Contact us</a></li>
-                </ul><a href=""
-                    style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;padding: 7.25px;">Help</a>
-            </div>
-        </div>
-    </nav>
+    
     <script src="{% static 'App/assets/js/jquery.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'App/assets/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"

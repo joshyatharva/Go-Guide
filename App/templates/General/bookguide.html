@@ -222,7 +222,7 @@
                 >Blogs</a
               >
             </li>
-            <li class="nav-item"><a class="nav-link" href="">Contact us</a></li>
+            <li class="nav-item"><a class="nav-link" href="#Contact">Contact us</a></li>
           </ul>
           <a
             href="{% url 'help' %}"
@@ -233,6 +233,18 @@
               font-size: 16px;
             "
             >Help</a
+          >
+          <a
+            href="{% url 'logout' %}"
+            style="
+              font-family: Lato, sans-serif;
+              color: var(--light);
+              filter: brightness(99%) saturate(73%);
+              font-size: 16px;
+              margin-left:10px;
+              padding: 7.25px;
+            "
+            >Log out</a
           >
         </div>
       </div>
@@ -367,19 +379,12 @@
           rgb(193, 131, 242);
           margin-top: 200px;
       "
+      id="Contact"
     >
       <div class="container">
-        <div class="links"><a href="#">Contact me</a></div>
+        <div class="links"><a href="#Contact">Contact me</a></div>
       </div>
-      <div class="social-icons">
-        <a href="#" style="background: var(--indigo)"
-          ><i class="icon ion-social-facebook"></i></a
-        ><a href="#" style="background: #51242f; color: var(--white)"
-          ><i class="icon ion-social-instagram-outline"></i></a
-        ><a href="#" style="background: var(--blue)"
-          ><i class="icon ion-social-twitter"></i
-        ></a>
-      </div>
+      <<div class="social-icons"><a href="https://www.facebook.com/" style="background: var(--indigo);"><i class="icon ion-social-facebook"></i></a><a href="https://www.instagram.com/" style="background: #51242f;color: var(--white);"><i class="icon ion-social-instagram-outline"></i></a><a href="https://twitter.com/" style="background: var(--blue);"><i class="icon ion-social-twitter"></i></a></div>
     </footer>
     <script
       src="{% static 'App/assets/js/jquery.min.js' %}"
