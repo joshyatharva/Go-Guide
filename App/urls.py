@@ -27,7 +27,9 @@ urlpatterns = [
 	path('filter', views.guide_filter, name='guide-filter'),
 	path('review/guide', views.review_guide, name='review-guide'),
 	path('payment', views.payment, name='payment'),
-	path('checkout/', views.checkout, name='checkout'),
+	path('checkout', views.checkout, name='checkout'),
 	path('bookings', views.bookings, name='bookings'),
+	path('forgot/password', views.forgot_password, name='forgot-password'),
+	path('reset/password/<int:user_id>/<str:token>', views.reset_password, name='reset-password'),
 	# path('payment/', views.payment, name='Payment'),
 ]

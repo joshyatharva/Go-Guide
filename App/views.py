@@ -591,7 +591,7 @@ def guide_filter(request):
 
 		d = next_weekday(today, which_day_they_meant)
 		for guide in guides:
-			bookings = guide.booking_set.filter(date__gte=today).all()
+			bookings = guide.booking_set.filter(date__gte=today, status=True).all()
 			for b in bookings:
 				if b.date == d:
 					guides = guides.exclude(guide_id=guide.guide_id)
@@ -721,4 +721,98 @@ def payment(request):
 	else:
 		b.status = False
 	b.save()
+	# mail customer
+	receiver = ''
+	subject = ''
+	body = ''
+	receiver = b.guide.user_details.email
+	subject = "New Booking Confirmed"
+	body  = f"Hi {b.guide.user_details.first_name} {b.guide.user_details.last_name}!\nYou have been booked as a guide by {b.tourist.user_details.first_name} {b.tourist.user_details.last_name} for {b.date}.\nThanks and Regards,\nTeam Go-Guide\n"
+	if b.status:
+		for i in range(5): # try mailing 5 times # mails only once # to guide
+			if mail(receiver=receiver, subject=subject, body=body):
+				break
+	
+	receiver = b.tourist.user_details.email
+	if b.status:
+		subject = "Booking Successful"
+		body = f"Hi {b.tourist.user_details.first_name} {b.tourist.user_details.last_name}! Your booking has been successful.\n"
+		body += f"Booking Details :\nGuide Name : {b.guide.user_details.first_name} {b.guide.user_details.last_name}\n"
+		body += f"Amount Paid : {b.guide.charges}\n"
+		body += f"City : {b.location.city}\nState : {b.location.state}\nCountry : {b.location.country}\n"
+		body += f"Date : {b.date}\n"
+		body += f"Contact Details:\n"
+		body += f"Phone Number : {b.guide.user_details.phone_number}\nEmail : {b.guide.user_details.email}\n"
+		body += "Thanks and Regards,\nTeam Go-Guide"
+	else:
+		subject = "Booking Not Successful"
+		body = f"Your booking on {b.date} was unsuccessful. Please try again later"
+		body += f"Thanks and Regards,\nTeam Go-Guide"
+	for i in range(5):
+		if mail(receiver=receiver, subject=subject, body=body):
+			break
 	return render(request, 'General/paymentstatus.html', {'response': response_dict})
+
+def forgot_password(request):
+		if request.user.is_authenticated:
+			return HttpResponseRedirect(reverse('index'))
+		if request.method == "POST":
+			em = request.POST.get('email_as_input')
+			if em:
+				email = request.POST.get('email')
+				user = User.objects.filter(email=email).first()
+				if user is None:
+					return HttpResponse("<h1>No Such User</h1>")
+				token = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+				acnt = AccountVerification()
+				acnt.token = token
+				acnt.user_id = user.user_id
+				acnt.save()
+				receiver = email
+				subject = "Reset Password"
+				body = "copy-paste the link below in your browser to reset your password:\n"
+				body += f"{WEBSITE}/reset/password/{user.user_id}/{token}"
+				for i in range(5):
+					if mail(receiver=receiver, subject=subject, body=body):
+						break
+				return HttpResponse("Email has been sent to your mailbox.")
+			elif request.POST.get('password_as_input'):
+				password = request.POST.get('password')
+				user_id = request.POST.get('user_id')
+				user = User.objects.filter(user_id=user_id).first()
+				if user is None:
+					return HttpResponse("<h1>No Record Found</h2>")
+				user.set_password(password)
+				user.save()
+				receiver =user. email
+				subject = "Password Reset Successful"
+				body = "Your password has been reset successfully\n"
+				body += f"Thanks and Regards,\nTeam Go-Guide"
+				for i in range(5):
+					if mail(receiver=receiver, subject=subject, body=body):
+						break
+				return HttpResponse("<h1>Your Password Has Been Reset Successfully.</h1>")
+			else:
+				return HttpResponse("<h1>Something Went Wrong!</h1>")
+		else:
+			context = {
+				"email" : True,
+			}
+		
+			return render(request, 'General/forgotpassword.html', context)
+
+@require_GET
+def reset_password(request, user_id, token):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('index'))
+	user = User.objects.filter(pk=user_id).first()
+	accnt = AccountVerification.objects.filter(user_id=user_id).first()
+	if accnt.token == token:
+		context = {
+			"password" : True,
+			"user_id" : user.user_id,
+		}
+		accnt.delete()
+		return render(request, 'General/forgotpassword.html', context)
+	else:
+		raise Http404("<h1>Page Not Found</h1>")
