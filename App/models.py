@@ -127,6 +127,10 @@ class Guide(models.Model):
 	available = models.BooleanField(default=False)
 	location = models.ManyToManyField(Location)
 	rating = models.FloatField(default=0.0)
+	fb = models.URLField(null=True, blank=True)
+	insta = models.URLField(null=True, blank=True)
+	twitter = models.URLField(null=True, blank=True)
+	bio = models.TextField(default='Apparently, this user prefers to keep an air of mystery about them.')
 
 class Blog(models.Model):
 	blog_id = models.AutoField(primary_key=True)

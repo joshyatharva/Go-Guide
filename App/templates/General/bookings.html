@@ -276,11 +276,53 @@
             font-size: 41.6px;
           "
         >
-          Bookings
+         {% if bookings %} Bookings {% endif %}
         </h2>
       </div>
     </div>
+    {% for booking in bookings %}
+    <div class="row" style="justify-content: center;">
+       <div class="card bg-dark text-white mb-" style="width: 50rem; align-self: center;">
+          <div class="card-header">Booking ID #{{ booking.booking_id }}</div>
+          <div class="card-body">
+
+            <h5 class="card-title">
+              {% if user.user_type %}
+              {{ booking.guide.user_details.first_name }}&nbsp;{{ booking.guide.user_details.last_name }}
+              {% else %}
+              {{ booking.tourist.user_details.first_name }}&nbsp;{{ booking.tourist.user_details.last_name }}
+              {% endif %}
+            </h5>
+            <p class="card-text">
+              <b>Date :&nbsp;</b>{{ booking.date }}<br/>
+              <b>City :&nbsp;</b>{{ booking.location.city }}<br/>
+              <b>State :&nbsp;</b>{{ booking.location.state }}<br/>
+              <b>Country :&nbsp;</b>{{ booking.location.country }}<br/>
+              <b>Amount :&nbsp;</b>{{ booking.guide.charges }}<br/>
+            </p>
+          </div>
+        </div>   
+    </div>
+    {% endfor %}
+    {% if not bookings %}
     <div class="row">
+      <div class="col">
+        <h2
+          class="text-center"
+          style="
+            color: var(--cyan);
+            font-family: 'Aref Ruqaa', serif;
+            font-weight: bold;
+            margin-bottom: 40px;
+            font-size: 41.6px;
+          "
+        >
+          No Bookings so far!
+        </h2>
+      </div>
+    </div>
+    {% endif %}
+    <!-- <div class="row">
       <div class="col" style="margin-bottom: 300px">
         <div class="list-group">
           <a
@@ -299,7 +341,7 @@
           >
         </div>
       </div>
-    </div>
+    </div> -->
     <footer
       class="page-footer"
       style="

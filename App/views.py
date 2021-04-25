@@ -65,8 +65,18 @@ def aboutus(request):
 def help(request):
 	return render(request, 'General/help.html')
 
+@login_required(login_url='login')
 def bookings(request):
-	return render(request, 'General/bookings.html')
+	user = request.user
+	bookings = False
+	if user.user_type:
+		bookings = user.tourist.booking_set.filter(status=True).all().order_by('-date')
+	else:
+		bookings = user.guide.booking_set.filter(status=True).all().order_by('-date')
+	context = {
+		"bookings" : bookings,
+	}
+	return render(request, 'General/bookings.html', context)
 
 def register(request):
 	if request.user.is_authenticated:
