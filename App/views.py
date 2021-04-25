@@ -405,8 +405,8 @@ def guide_profile(request, username):
 		allowed = False
 	else :
 		print("\n\nTourist IT IS\n")
-		rvws = request.user.tourist.review_set
-		found = rvws.filter(reviewer=request.user.tourist)
+		# rvws = request.user.tourist.review_set
+		found = reviews.filter(reviewer=request.user.tourist).all()
 		if found:
 			allowed = False
 		else:
