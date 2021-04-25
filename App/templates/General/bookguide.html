@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
     />
-    <title>Projects - Brand</title>
+    <title>GoGuide</title>
     <link
       rel="stylesheet"
       href="{% static 'App/assets/bootstrap/css/bootstrap.min.css' %}"
@@ -222,6 +222,19 @@
                 >Blogs</a
               >
             </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'bookings' %}"
+                style="
+                  font-family: Lato, sans-serif;
+                  color: var(--light);
+                  filter: brightness(99%) saturate(73%);
+                  font-size: 16px;
+                "
+                >bookings</a
+              >
+            </li>
             <li class="nav-item"><a class="nav-link" href="#Contact">Contact us</a></li>
           </ul>
           <a
@@ -382,7 +395,7 @@
       id="Contact"
     >
       <div class="container">
-        <div class="links"><a href="#Contact">Contact me</a></div>
+        <div class="links"><a href="#Contact">Contact us</a></div>
       </div>
       <<div class="social-icons"><a href="https://www.facebook.com/" style="background: var(--indigo);"><i class="icon ion-social-facebook"></i></a><a href="https://www.instagram.com/" style="background: #51242f;color: var(--white);"><i class="icon ion-social-instagram-outline"></i></a><a href="https://twitter.com/" style="background: var(--blue);"><i class="icon ion-social-twitter"></i></a></div>
     </footer>

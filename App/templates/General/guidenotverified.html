@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+    <title>GoGuide</title>
     <link rel="stylesheet" href="{% static 'App/assets/bootstrap/css/bootstrap.min.css' %}" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Actor">
@@ -47,47 +47,26 @@
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white float-right portfolio-navbar gradient" style="height: 85px;">
-        <div class="container"><a class="navbar-brand logo" href="#" style="font-family: 'Aref Ruqaa', serif;font-size: 37px;">GoGuide</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand logo" href="{% url 'index' %}" style="font-family: 'Aref Ruqaa', serif;font-size: 37px;">GoGuide</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'aboutus' %}" style="font-family: Lato, sans-serif;">About us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="blogs.html" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="">Contact us</a></li>
-                </ul><a href="" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Help</a>
+                    <li class="nav-item"><a class="nav-link" href="#Contact">Contact us</a></li>
+                </ul><a href="{% url 'help' %}" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Help</a>
             </div>
         </div>
     </nav>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white float-right portfolio-navbar gradient" style="height: 85px;">
-        <div class="container"><a class="navbar-brand logo" href="#" style="font-family: 'Aref Ruqaa', serif;font-size: 37px;">GoGuide</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="touristhome.html" style="font-family: Lato, sans-serif;">About us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="blogs.html" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="">Contact us</a></li>
-                </ul><a href="" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Help</a>
-            </div>
-        </div>
-    </nav>
+    
 
-    <h3 style="text-align:center;"><b>Account not yet verified</b></h3>
+    <h3 style="text-align:center; color:#7f70f5;margin:200px;"><b>Account not yet verified</b></h3>
 
-    <footer class="page-footer" style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);">
+    <footer class="page-footer" style="color: rgb(41,101,162);background: linear-gradient(120deg, #7f70f5, #0ea0ff), rgb(193,131,242);" id="Contact">
         <div class="container">
-            <div class="links"><a href="#">Contact me</a></div>
+            <div class="links"><a href="#Contact">Contact me</a></div>
         </div>
-        <div class="social-icons"><a href="#" style="background: var(--indigo);"><i class="icon ion-social-facebook"></i></a><a href="#" style="background: #51242f;color: var(--white);"><i class="icon ion-social-instagram-outline"></i></a><a href="#" style="background: var(--blue);"><i class="icon ion-social-twitter"></i></a></div>
+        <div class="social-icons"><a href="https://www.facebook.com/" style="background: var(--indigo);"><i class="icon ion-social-facebook"></i></a><a href="https://www.instagram.com/" style="background: #51242f;color: var(--white);"><i class="icon ion-social-instagram-outline"></i></a><a href="https://twitter.com/" style="background: var(--blue);"><i class="icon ion-social-twitter"></i></a></div>
     </footer>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white float-right portfolio-navbar gradient" style="height: 85px;">
-        <div class="container"><a class="navbar-brand logo" href="#" style="font-family: 'Aref Ruqaa', serif;font-size: 37px;">GoGuide</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="aboutus.html" style="font-family: Lato, sans-serif;">About us</a></li>
-                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="blogs.html" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;">Blogs</a></li>
-                    <li class="nav-item" style="padding-right: 0px;"><a class="nav-link" href="">Contact us</a></li>
-                </ul><a href="" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;padding: 7.25px;">Help</a><a href="" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;padding: 7.25px;">register</a><a href="" style="font-family: Lato, sans-serif;color: var(--light);filter: brightness(99%) saturate(73%);font-size: 16px;padding: 7.25px;">Log in</a>
-            </div>
-        </div>
-    </nav>
+    
     <script src="{% static 'App/assets/js/jquery.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'App/assets/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js" type="text/javascript"></script>
