@@ -495,7 +495,7 @@ def book(request):
 
 	if guide is None:
 		raise Http404("<h1>Page Not Found</h1>")
-	lctn = guide.location.first()
+	lctn = guide.location
 	bookings = guide.booking_set.filter(status=True).all()
 	print(bookings)
 	todays_date = datetime.date.today()
