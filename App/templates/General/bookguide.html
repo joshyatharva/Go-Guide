@@ -273,13 +273,13 @@
               <p class="lead text-center mb-0">Day:</p>
               <select class="form-control" name="days" value="tue">
                 <option value="2" {{ anyday }} >Any Day</option>
-                <option value="mon" {{ mon }} >Monday</option>
-                <option value="tue" {{ tue }} >Tuesday</option>
-                <option value="wed" {{ wed }}  >Wednesday</option>
-                <option value="thu" {{ thu }} >Thursday</option>
-                <option value="fri" {{ fri }} >Friday</option>
-                <option value="sat" {{ sat }}>Saturday</option>
-                <option value="sun" {{ sun }} >Sunday</option>
+                <option value="day1" {{ day1 }} >{{ upcoming_days.0 }}&nbsp;:&nbsp;{{ upcoming_dates.0 }}</option>
+                <option value="day2" {{ day2 }} >{{ upcoming_days.1 }}&nbsp;:&nbsp;{{ upcoming_dates.1 }}</option>
+                <option value="day3" {{ day3 }} >{{ upcoming_days.2 }}&nbsp;:&nbsp;{{ upcoming_dates.2 }}</option>
+                <option value="day4" {{ day4 }} >{{ upcoming_days.3 }}&nbsp;:&nbsp;{{ upcoming_dates.3 }}</option>
+                <option value="day5" {{ day5 }} >{{ upcoming_days.4 }}&nbsp;:&nbsp;{{ upcoming_dates.4 }}</option>
+                <option value="day6" {{ day6 }}>{{ upcoming_days.5 }}&nbsp;:&nbsp;{{ upcoming_dates.5 }}</option>
+                <option value="day7" {{ day7 }} >{{ upcoming_days.6 }}&nbsp;:&nbsp;{{ upcoming_dates.6 }}</option>
               </select>
             </div>
             <div class="col-md-4">

@@ -431,13 +431,21 @@ def read_blogs(request):
 @require_POST
 def book_guide(request):
 	context = {}
+	today = datetime.date.today()
 	lctn = request.POST.get("location")
-	guides = Guide.objects.filter(location=lctn, is_verified=True).all()
+	guides = Guide.objects.filter(location=lctn, is_verified=True, available=True).all()
 	if guides:
 		context["guides"] = guides
 	else:
 		context["guides"] = False
 	context["location"] = lctn
+	upcoming_dates = []
+	upcoming_days = []
+	for i in range(0, 7): # 0 to 6
+		upcoming_dates.append(next_weekday(today, i))
+		upcoming_days.append(upcoming_dates[i].strftime("%A"))
+	context["upcoming_dates"] = upcoming_dates
+	context["upcoming_days"] = upcoming_days
 	return render(request, "General/bookguide.html", context)
 
 @require_POST
@@ -501,6 +509,7 @@ def book(request):
 	print("available_dates = ", available_dates)
 	if not available_dates:
 		available_dates = False
+
 	context = {
 		"guide" : guide,
 		"location" : lctn,
@@ -515,12 +524,14 @@ def guide_filter(request):
 	user = request.user
 	if not user.account_verified:
 		return HttpResponseRedirect('not-verified')
+	today = datetime.date.today()
+	d = today
 	lctn = request.POST.get('location')
 	gender = request.POST.get('gender')
 	days = request.POST.get('days')
 	sort = request.POST.get('sort')
 	guides = False;
-	mon=None;tue=None;wed=None;thu=None;fri=None;sat=None;sun=None;anyday=None;male=None;female=None;unisex=None;p0=None;p1=None;r0=None;r1=None;All=None;
+	day1=None;day2=None;day3=None;day4=None;day5=None;day6=None;day7=None;anyday=None;male=None;female=None;unisex=None;p0=None;p1=None;r0=None;r1=None;All=None;
 	if gender == "2":
 		guides = Guide.objects.filter(location=lctn, is_verified=True).all()
 		unisex = "selected"
@@ -535,29 +546,59 @@ def guide_filter(request):
 	if days == "2":
 		guides = guides.filter(available=True).all()
 		anyday = "selected"
-	elif days == "mon":
-		guides = guides.filter(days_available__mon=True).all()
-		mon = "selected"
-	elif days == "tue":
-		guides = guides.filter(days_available__tue=True).all()
-		tue = "selected"
-	elif days == "wed":
-		guides = guides.filter(days_available__wed=True).all()
-		wed = "selected"
-	elif days == "thu":
-		guides = guides.filter(days_available__thu=True).all()
-		thu = "selected"
-	elif days == "fri":
-		guides = guides.filter(days_available__fri=True).all()
-		fri = "selected"
-	elif days == "sat":
-		guides = guides.filter(days_available__sat=True).all()
-		sat = "selected"
-	elif days == "sun":
-		guides = guides.filter(days_available__sun=True).all()
-		sun = "selected"
+
+	elif days == "day1":
+		day1 = "selected"
+
+	elif days == "day2":
+		day2 = "selected"
+
+	elif days == "day3":
+		day3 = "selected"
+
+	elif days == "day4":
+		day4 = "selected"
+
+	elif days == "day5":
+		day5 = "selected"
+
+	elif days == "day6":
+		day6 = "selected"
+
+	elif days == "day7":
+		day7 = "selected"
 	else:
+		days = None
 		guides = Guide.objects.none() # does not exist
+	print("GUIDES INITIALLY => ", guides)
+	if (days != "2") and (days is not None): # if not ALL
+		day_number = int(days[3])
+		which_day_they_meant = (datetime.date.today().weekday() + day_number)%7
+		if which_day_they_meant == 0:
+			guides = guides.filter(days_available__mon=True).all()
+		elif which_day_they_meant == 1:
+			guides = guides.filter(days_available__tue=True).all()
+		elif which_day_they_meant == 2:
+			guides = guides.filter(days_available__wed=True).all()
+		elif which_day_they_meant == 3:
+			guides = guides.filter(days_available__thu=True).all()
+		elif which_day_they_meant == 4:
+			guides = guides.filter(days_available__fri=True).all()
+		elif which_day_they_meant == 5:
+			guides = guides.filter(days_available__sat=True).all()
+		elif which_day_they_meant == 6:
+			guides = guides.filter(days_available__sun=True).all()
+
+		d = next_weekday(today, which_day_they_meant)
+		for guide in guides:
+			bookings = guide.booking_set.filter(date__gte=today).all()
+			for b in bookings:
+				if b.date == d:
+					guides = guides.exclude(guide_id=guide.guide_id)
+					break
+
+	print("GUIDES LATER => ", guides)
+
 	if sort == "2":
 		All = "selected"
 		pass
@@ -575,9 +616,17 @@ def guide_filter(request):
 		r1 = "selected"
 	else :
 		guides = Guide.objects.none()
-	context = {"All":All,"unisex":unisex,"anyday":anyday,"mon":mon,"tue":tue,"wed":wed,"thu":thu,"fri":fri,"sat":sat,"sun":sun,"p0":p0,"p1":p1,"r0":r0,"r1":r1,"male":male,"female":female}	
+
+	context = {"All":All,"unisex":unisex,"anyday":anyday,"day1":day1,"day2":day2,"day3":day3,"day4":day4,"day5":day5,"day6":day6,"day7":day7,"p0":p0,"p1":p1,"r0":r0,"r1":r1,"male":male,"female":female}	
 	context["guides"] = guides
 	context["location"] = lctn
+	upcoming_dates = []
+	upcoming_days = []
+	for i in range(0, 7): # 0 to 6
+		upcoming_dates.append(next_weekday(today, i))
+		upcoming_days.append(upcoming_dates[i].strftime("%A"))
+	context["upcoming_dates"] = upcoming_dates
+	context["upcoming_days"] = upcoming_days
 	return render(request, 'General/bookguide.html', context)
 	pass
 
