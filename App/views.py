@@ -448,12 +448,15 @@ def book(request):
 	if guide is None:
 		raise Http404("<h1>Page Not Found</h1>")
 	lctn = guide.location.first()
-	bookings = guide.booking_set.all()
+	bookings = guide.booking_set.filter(status=True).all()
+	print(bookings)
 	todays_date = datetime.date.today()
 	bookings = bookings.filter(date__gte=todays_date).all()
 	dates_not_available = []
+	
 	for booking in bookings:
 		dates_not_available.append(booking.date)
+	print('NOT available ON = ', dates_not_available)
 	days = guide.days_available
 	# 0 = Monday, 1=Tuesday, 2=Wednesday...
 	available_dates = []
@@ -493,6 +496,7 @@ def book(request):
 		d = next_weekday(todays_date, 6)
 		if d not in dates_not_available:
 			available_dates.append(["Sunday", d])
+	print("available_dates = ", available_dates)
 	if not available_dates:
 		available_dates = False
 	context = {
@@ -610,7 +614,10 @@ def checkout(request):
 		lid = request.POST.get('location_id')
 		guide = Guide.objects.filter(pk=gid).first()
 		lctn = Location.objects.filter(pk=lid).first()
-		b = Booking(amount=guide.charges, tourist=tourist, guide=guide, location=lctn)
+		dt = request.POST.get('date') # string of format "April 26, 2021"
+		dt = datetime.datetime.strptime(dt, "%B %d, %Y") # datetime object
+		dt = dt.date() # date object
+		b = Booking(amount=guide.charges, tourist=tourist, guide=guide, location=lctn, date=dt)
 		b.save()
 		order_id = f"ORDERID_{b.booking_id}"
 		amount = guide.charges
@@ -647,14 +654,20 @@ def payment(request):
 	orderid = response_dict["ORDERID"]
 	orderid = orderid.split("_")
 	booking_id = int(orderid[1])
-	b = Booking.objects.filter(pk=booking_id)
+	print("BOOKING ID = ", booking_id)
+	b = Booking.objects.filter(pk=booking_id).first()
 	global CHECKSUMVERIFY
 	verify = PaytmChecksum.verifySignature(response_dict, MERCHANT_KEY, CHECKSUMVERIFY)
 	if verify:
 		if response_dict['RESPCODE'] == '01':
 			print('order successful')
-			b.status = True
+			
 		else:
 			print('order was not successful because' + response_dict['RESPMSG'])
-			b.status = False
+		
+	if response_dict["STATUS"] == "TXN_SUCCESS":
+		b.status = True
+	else:
+		b.status = False
+	b.save()
 	return render(request, 'General/paymentstatus.html', {'response': response_dict})
