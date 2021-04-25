@@ -67,6 +67,7 @@
             </div>
         </div>
     </nav>
+    
     <div class="form-group align-items-center align-content-center align-self-center"
         style="text-align: center;padding-top: 20px;padding-bottom: 20px;height: 750.3px;margin-bottom: 15px;">
         <form method="POST" enctype="multipart/form-data"
@@ -76,29 +77,32 @@
                 style="color: var(--cyan);font-family: 'Aref Ruqaa', serif;font-weight: bold;margin-bottom: 40px;font-size: 41.6px;">
                 Edit profile</h2>
             <div class="form-group" ><!-- <input class="form-control" type="text" name="place" placeholder="Place"> -->
-                <input class="form-control" type="text" name="charges" placeholder="Charges">
-                <div class="form-group"><input class="form-control" type="text" name="city" placeholder="City"></div>
-                    <div class="form-group"><input class="form-control" type="text" name="state" placeholder="State"></div>
-                        <div class="form-group"><input class="form-control" type="text" name="country" placeholder="Country"></div>
-                        <div class="form-group"><textarea class="form-control" name="bio" placeholder="Bio"></textarea></div>
+                <input class="form-control" type="text" name="charges" placeholder="Charges" value="{{ guide.charges }}">
+                <div class="form-group"><input class="form-control" type="text" name="city" placeholder="City" value="{{ guide.location.city }}"></div>
+                    <div class="form-group"><input class="form-control" type="text" name="state" placeholder="State" value="{{ guide.location.state }}"></div>
+                        <div class="form-group"><input class="form-control" type="text" name="country" value="{{ guide.location.country }}"></div>
+                         <div class="form-group"><input class="form-control" type="url" name="fb" {% if guide.fb %}value="{{ guide.fb }}"{% endif %} placeholder="Facebook Profile"></div>
+                          <div class="form-group"><input class="form-control" type="url" name="insta" {% if guide.insta %}value="{{ guide.insta }}"{% endif %} placeholder="Instagram Profile"></div>
+                           <div class="form-group"><input class="form-control" type="url" name="twitter" {% if guide.twitter %}value="{{ guide.twitter }}"{% endif %} placeholder="Twitter Profile"></div>
+                        <div class="form-group"><textarea class="form-control" name="bio" placeholder="Bio">{{ guide.bio }}</textarea></div>
             </div>
             <h1 style="font-size: 20px;color: var(--gray-dark);margin-top: 30px;">Days Available</h1>
             <div class="container">
                 <div class="form-row">
                     <div class="col-md-3">
                         <div class="form-check"><input class="form-check-input" type="checkbox" name="mon"
-                                id="formCheck-1"><label class="form-check-label" for="formCheck-1">Mon</label></div>
+                                id="formCheck-1" value="true"><label class="form-check-label" for="formCheck-1" {% if guide.days_available.mon %} checked {% endif %}>Mon</label></div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" name="tue"
-                                id="formCheck-2"><label class="form-check-label" for="formCheck-2">Tue</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="tue" value="{{ guide.days_available.tue }}" 
+                                id="formCheck-2"><label class="form-check-label" for="formCheck-2" {% if guide.days_available.tue %} checked {% endif %}>Tue</label></div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" name="wed"
-                                id="formCheck-3"><label class="form-check-label" for="formCheck-3">Wed</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="wed" 
+                                {% if guide.days_available.wed %} checked {% endif %} id="formCheck-3"><label class="form-check-label" for="formCheck-3">Wed</label></div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" name="thu"
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="thu" {% if guide.days_available.thu %} checked {% endif %} 
                                 id="formCheck-4"><label class="form-check-label" for="formCheck-4">Thu</label></div>
                     </div>
                 </div>
@@ -106,15 +110,15 @@
             <div class="container">
                 <div class="form-row" style="color: var(--gray-dark);">
                     <div class="col-md-3">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" name="fri"
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="fri" {% if guide.days_available.fri %} checked {% endif %} 
                                 id="formCheck-5"><label class="form-check-label" for="formCheck-5">Fri</label></div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" name="sat"
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="sat" {% if guide.days_available.sat %} checked {% endif %} 
                                 id="formCheck-6"><label class="form-check-label" for="formCheck-6">Sat</label></div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" name="sun"
+                        <div class="form-check"><input class="form-check-input" type="checkbox" name="sun" {% if guide.days_available.sun %} checked {% endif %} 
                                 id="formCheck-7"><label class="form-check-label" for="formCheck-7">Sun</label></div>
                     </div>
                 </div>

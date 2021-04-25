@@ -58,6 +58,21 @@ class User(AbstractUser):
 		user.is_admin = True
 		user.save(using=self._db)
 		return user
+	def save(self, *args, **kwargs):
+		super(User, self).save(*args, **kwargs)
+		print(f"DEFAULT URL : {self.profile_pic.url}")
+		if self.profile_pic.url != '/media/default.png':
+			UPLOAD_TO = 'Profile/'
+			path = os.path.join(BASE_DIR, 'media/Profile')
+			if not os.path.exists(path):
+				os.makedirs(path)
+			filename = self.profile_pic.name
+			extension = filename.split('.')[-1]
+			new_name = f"{UPLOAD_TO}{self.user_id}.{extension}"
+			location = r"{BASE_DIR}/media/".format(BASE_DIR=BASE_DIR)
+			os.rename(r"{location}/{filename}".format(location=location,filename=filename), r"{location}/{new_name}".format(location=location, new_name=new_name))
+			self.profile_pic.name = new_name
+			super(User, self).save(*args, **kwargs)
 
 class Location(models.Model):
 	location_id = models.AutoField(primary_key=True)
@@ -125,7 +140,7 @@ class Guide(models.Model):
 	charges = models.PositiveIntegerField(default=1000)
 	days_available = models.ForeignKey(Days, on_delete=models.CASCADE, blank=True, null=True)
 	available = models.BooleanField(default=False)
-	location = models.ManyToManyField(Location)
+	location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
 	rating = models.FloatField(default=0.0)
 	fb = models.URLField(null=True, blank=True)
 	insta = models.URLField(null=True, blank=True)

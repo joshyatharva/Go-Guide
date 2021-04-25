@@ -223,12 +223,26 @@ def profile_edit_guide(request):
 		return HttpResponseRedirect(reverse('index'))
 	if request.method == "POST":
 		x = request.POST
+		image = request.FILES.get('image')
+		fb = x.get('fb')
+		if fb:
+			user.fb = fb
+		insta = x.get('insta')
+		if insta:
+			user.insta = insta
+		twitter = x.get('twitter')
+		if twitter:
+			user.twitter = twitter
+		if image:
+			user.profile_pic = image
+		user.save()
 		form0 = DaysForm(x)
 		# form1 = DocumentsForm(x, request.FILES)
 		charges = x.get("charges")
 		city = x.get("city")
 		state = x.get("state")
 		country = x.get("country")
+		bio = x.get("bio")
 		lctn = Location.objects.filter(city__icontains=city, state__icontains=state, country__icontains=country).first()
 		if not lctn:
 			lctn = Location(city=city, state=state, country=country)
@@ -247,14 +261,16 @@ def profile_edit_guide(request):
 				days = form0.save()
 			guide.days_available = days
 			guide.charges = charges
-			guide.location.add(lctn)
+			guide.location = lctn
 			guide.save()
 			return HttpResponse("<h1>Guide Edit Profile Successful</h1>")
 		else:
 			return HttpResponse(f"FORM0 : {form0.errors}\n")
 
 	else:
-		return render(request, 'General/editprofile.html')
+		guide = request.user.guide
+		context = {"guide" : guide}
+		return render(request, 'General/editprofile.html', context)
 
 def verify_account(request, a, token):
 	acnt = AccountVerification.objects.filter(user_id=a, token=token).first()
@@ -346,10 +362,18 @@ def create_profile(request):
 		x = request.POST
 		form0 = DaysForm(x)
 		form1 = DocumentsForm(x, request.FILES)
+		image = request.FILES.get('image')
+		if image:
+			user.image = image
+			user.save()
 		charges = x.get("charges")
 		city = x.get("city")
 		state = x.get("state")
 		country = x.get("country")
+		fb = x.get('fb')
+		insta = x.get('insta')
+		twitter = x.get('twitter')
+		bio = x.get('bio')
 		lctn = Location.objects.filter(city__icontains=city, state__icontains=state, country__icontains=country).first()
 		if not lctn:
 			lctn = Location(city=city, state=state, country=country)
@@ -368,9 +392,13 @@ def create_profile(request):
 				days = form0.save()
 			documents = form1.save()
 			guide.guide_documents = documents
+			guide.fb = fb
+			guide.insta = insta
+			guide.twitter = twitter
+			guide.bio = bio
 			guide.days_available = days
 			guide.charges = charges
-			guide.location.add(lctn)
+			guide.location = lctn
 			guide.save()
 			return HttpResponse("<h1>Guide Create Profile Successful</h1>")
 		else:
